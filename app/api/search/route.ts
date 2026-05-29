@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { searchAllSocial } from "@/lib/apify";
 import { mockGachaItems, mockSocialPosts } from "@/lib/mockData";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const query = searchParams.get("q") || "";
