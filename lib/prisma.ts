@@ -2,24 +2,36 @@ import { PrismaClient } from "@prisma/client";
 
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient | undefined };
 
-function createPrismaClient() {
-  if (!process.env.DATABASE_URL) {
-    // Return a dummy client when DB is not configured
-    // API routes handle this gracefully with try/catch
-    return new PrismaClient();
+// Lazy initialization — only create the client when first accessed
+let _prisma: PrismaClient | undefined;
+
+function getPrismaClient(): PrismaClient {
+  if (_prisma) return _prisma;
+
+  if (process.env.DATABASE_URL && !process.env.DATABASE_URL.startsWith("file:")) {
+    try {
+      const { PrismaPg } = require("@prisma/adapter-pg");
+      const { Pool } = require("pg");
+      const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+      const adapter = new PrismaPg(pool);
+      _prisma = new PrismaClient({ adapter } as any);
+    } catch {
+      _prisma = new PrismaClient();
+    }
+  } else {
+    _prisma = new PrismaClient();
   }
 
-  try {
-    const { PrismaPg } = require("@prisma/adapter-pg");
-    const { Pool } = require("pg");
-    const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-    const adapter = new PrismaPg(pool);
-    return new PrismaClient({ adapter } as any);
-  } catch {
-    return new PrismaClient();
+  if (process.env.NODE_ENV !== "production") {
+    globalForPrisma.prisma = _prisma;
   }
+
+  return _prisma;
 }
 
-export const prisma = globalForPrisma.prisma ?? createPrismaClient();
-
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+// Export a proxy that lazily initializes on first property access
+export const prisma = new Proxy({} as PrismaClient, {
+  get(_target, prop) {
+    return (getPrismaClient() as any)[prop];
+  },
+});
