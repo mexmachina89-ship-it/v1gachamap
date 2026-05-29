@@ -123,6 +123,12 @@ function filterGachaRelevant(posts: SocialPost[]): SocialPost[] {
 
 export async function searchTwitter(query: string): Promise<SocialPost[]> {
   if (!process.env.APIFY_API_TOKEN) return [];
+
+  // キャッシュ確認
+  const { getCachedResults, setCachedResults } = await import("./cache");
+  const cached = await getCachedResults(query, "twitter");
+  if (cached) return cached;
+
   try {
     const optimizedQuery = buildTwitterQuery(query);
     const run = await client.actor("apidojo/tweet-scraper").call({
@@ -141,7 +147,9 @@ export async function searchTwitter(query: string): Promise<SocialPost[]> {
       likes: item.favorite_count || 0,
       createdAt: item.created_at || new Date().toISOString(),
     }));
-    return filterGachaRelevant(posts);
+    const filtered = filterGachaRelevant(posts);
+    await setCachedResults(query, "twitter", filtered); // キャッシュ保存
+    return filtered;
   } catch {
     return [];
   }
@@ -149,6 +157,11 @@ export async function searchTwitter(query: string): Promise<SocialPost[]> {
 
 export async function searchInstagram(query: string): Promise<SocialPost[]> {
   if (!process.env.APIFY_API_TOKEN) return [];
+
+  const { getCachedResults, setCachedResults } = await import("./cache");
+  const cached = await getCachedResults(query, "instagram");
+  if (cached) return cached;
+
   try {
     const hashtags = buildInstagramHashtags(query);
     const run = await client.actor("apify/instagram-hashtag-scraper").call({
@@ -166,7 +179,9 @@ export async function searchInstagram(query: string): Promise<SocialPost[]> {
       likes: item.likesCount || 0,
       createdAt: item.timestamp || new Date().toISOString(),
     }));
-    return filterGachaRelevant(posts);
+    const filtered = filterGachaRelevant(posts);
+    await setCachedResults(query, "instagram", filtered);
+    return filtered;
   } catch {
     return [];
   }
@@ -174,6 +189,11 @@ export async function searchInstagram(query: string): Promise<SocialPost[]> {
 
 export async function searchTikTok(query: string): Promise<SocialPost[]> {
   if (!process.env.APIFY_API_TOKEN) return [];
+
+  const { getCachedResults, setCachedResults } = await import("./cache");
+  const cached = await getCachedResults(query, "tiktok");
+  if (cached) return cached;
+
   try {
     const optimizedQuery = buildTikTokQuery(query);
     const run = await client.actor("clockworks/free-tiktok-scraper").call({
@@ -191,18 +211,26 @@ export async function searchTikTok(query: string): Promise<SocialPost[]> {
       likes: item.diggCount || 0,
       createdAt: item.createTime ? new Date(item.createTime * 1000).toISOString() : new Date().toISOString(),
     }));
-    return filterGachaRelevant(posts);
+    const filtered = filterGachaRelevant(posts);
+    await setCachedResults(query, "tiktok", filtered);
+    return filtered;
   } catch {
     return [];
   }
 }
 
 export async function searchAllSocial(query: string): Promise<SocialPost[]> {
+  // allプラットフォームのキャッシュを先に確認
+  const { getCachedResults, setCachedResults } = await import("./cache");
+  const cached = await getCachedResults(query, "all");
+  if (cached) return cached;
+
   const [twitter, instagram, tiktok] = await Promise.all([
     searchTwitter(query),
     searchInstagram(query),
     searchTikTok(query),
   ]);
-  // 全プラットフォームを合算して関連度×いいね数でソート
-  return filterGachaRelevant([...twitter, ...instagram, ...tiktok]);
+  const combined = filterGachaRelevant([...twitter, ...instagram, ...tiktok]);
+  await setCachedResults(query, "all", combined);
+  return combined;
 }

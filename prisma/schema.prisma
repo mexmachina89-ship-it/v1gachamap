@@ -93,3 +93,16 @@ model GachaLocation {
   createdAt   DateTime  @default(now())
   gachaItem   GachaItem @relation(fields: [gachaItemId], references: [id])
 }
+
+// SNS検索結果キャッシュ（24時間有効）
+model SocialPostCache {
+  id        String   @id @default(cuid())
+  query     String                   // 検索キーワード
+  platform  String                   // "twitter" | "instagram" | "tiktok" | "all"
+  results   Json                     // SocialPost[]をJSON保存
+  createdAt DateTime @default(now())
+  expiresAt DateTime                 // 有効期限（24時間後）
+
+  @@unique([query, platform])        // 同じクエリ×プラットフォームは1件のみ
+  @@index([query, platform])
+}
