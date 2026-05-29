@@ -1,0 +1,79 @@
+{
+  "nav": {
+    "home": "Home",
+    "search": "Search",
+    "map": "Map",
+    "ranking": "Ranking",
+    "signin": "Sign In",
+    "signup": "Sign Up",
+    "signout": "Sign Out"
+  },
+  "home": {
+    "title": "GachaMap",
+    "subtitle": "Find the capsule toy you want!",
+    "searchPlaceholder": "Search gacha... e.g. Pokemon, Sanrio",
+    "searchButton": "Search",
+    "trending": "Trending Keywords",
+    "newArrivals": "New Arrivals",
+    "nearbyStores": "Nearby Gacha Stores"
+  },
+  "search": {
+    "title": "Search Results",
+    "results": "results",
+    "noResults": "No results found",
+    "filterAll": "All",
+    "filterWeb": "Web",
+    "filterX": "X (Twitter)",
+    "filterInstagram": "Instagram",
+    "filterTiktok": "TikTok",
+    "price": "¥",
+    "findStores": "Find Stores",
+    "viewDetails": "View Details",
+    "loading": "Searching..."
+  },
+  "map": {
+    "title": "Store Map",
+    "searchArea": "Search this area",
+    "storeList": "Store List",
+    "noStores": "No stores found in this area",
+    "directions": "Get Directions",
+    "distance": "from"
+  },
+  "ranking": {
+    "title": "Search Ranking",
+    "subtitle": "What everyone is looking for now",
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly",
+    "searches": "searches"
+  },
+  "auth": {
+    "signupTitle": "Create Account",
+    "signinTitle": "Sign In",
+    "username": "Username",
+    "email": "Email Address",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "signupButton": "Create Account",
+    "signinButton": "Sign In",
+    "orContinueWith": "Or continue with",
+    "googleSignin": "Continue with Google",
+    "appleSignin": "Continue with Apple",
+    "alreadyHaveAccount": "Already have an account?",
+    "noAccount": "Don't have an account?",
+    "signinLink": "Sign In",
+    "signupLink": "Sign Up",
+    "passwordMismatch": "Passwords do not match",
+    "registerSuccess": "Registration successful!",
+    "invalidCredentials": "Invalid email or password"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Retry",
+    "back": "Back",
+    "close": "Close",
+    "share": "Share",
+    "copy": "Copy"
+  }
+}
