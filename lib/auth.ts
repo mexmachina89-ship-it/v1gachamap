@@ -3,6 +3,8 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 
+const hasDB = !!process.env.DATABASE_URL && !process.env.DATABASE_URL.startsWith("file:");
+
 export const authOptions: NextAuthOptions = {
   providers: [
     // Google OAuth — only enabled when credentials are set
@@ -18,7 +20,6 @@ export const authOptions: NextAuthOptions = {
     // Apple OAuth — only enabled when credentials are set
     ...(process.env.APPLE_ID && process.env.APPLE_SECRET
       ? [
-          // Dynamic import to avoid build-time errors
           require("next-auth/providers/apple").default({
             clientId: process.env.APPLE_ID,
             clientSecret: process.env.APPLE_SECRET,
@@ -35,7 +36,7 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
-        if (!process.env.DATABASE_URL) return null;
+        if (!hasDB) return null;
 
         try {
           const { prisma } = await import("./prisma");
@@ -44,10 +45,7 @@ export const authOptions: NextAuthOptions = {
           });
           if (!user || !user.password) return null;
 
-          const isValid = await bcrypt.compare(
-            credentials.password,
-            user.password
-          );
+          const isValid = await bcrypt.compare(credentials.password, user.password);
           if (!isValid) return null;
 
           return { id: user.id, email: user.email, name: user.name };
@@ -58,8 +56,8 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
 
-  // Use Prisma adapter only when DATABASE_URL is configured
-  ...(process.env.DATABASE_URL
+  // Use Prisma adapter + database sessions when DB is configured
+  ...(hasDB
     ? {
         adapter: (() => {
           try {
@@ -70,10 +68,11 @@ export const authOptions: NextAuthOptions = {
             return undefined;
           }
         })(),
+        session: { strategy: "database" as const },
       }
-    : {}),
-
-  session: { strategy: "jwt" },
+    : {
+        session: { strategy: "jwt" as const },
+      }),
 
   pages: {
     signIn: "/ja/auth/signin",
@@ -81,13 +80,22 @@ export const authOptions: NextAuthOptions = {
   },
 
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) token.id = user.id;
-      return token;
-    },
-    async session({ session, token }) {
-      if (session.user) (session.user as any).id = token.id;
+    async session({ session, user, token }) {
+      if (session.user) {
+        // database strategy uses `user`, jwt strategy uses `token`
+        (session.user as any).id = user?.id ?? token?.id;
+        session.user.name = user?.name ?? token?.name ?? session.user.name;
+        session.user.email = user?.email ?? token?.email ?? session.user.email;
+        session.user.image = user?.image ?? (token?.picture as string) ?? session.user.image;
+      }
       return session;
+    },
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.name = user.name;
+      }
+      return token;
     },
   },
 
