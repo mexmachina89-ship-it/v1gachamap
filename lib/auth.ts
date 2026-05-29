@@ -3,11 +3,8 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 
-const hasDB = !!process.env.DATABASE_URL && !process.env.DATABASE_URL.startsWith("file:");
-
 export const authOptions: NextAuthOptions = {
   providers: [
-    // Google OAuth — only enabled when credentials are set
     ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET
       ? [
           GoogleProvider({
@@ -17,7 +14,6 @@ export const authOptions: NextAuthOptions = {
         ]
       : []),
 
-    // Apple OAuth — only enabled when credentials are set
     ...(process.env.APPLE_ID && process.env.APPLE_SECRET
       ? [
           require("next-auth/providers/apple").default({
@@ -27,7 +23,6 @@ export const authOptions: NextAuthOptions = {
         ]
       : []),
 
-    // Email + Password
     CredentialsProvider({
       name: "credentials",
       credentials: {
@@ -36,18 +31,14 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
-        if (!hasDB) return null;
-
         try {
           const { prisma } = await import("./prisma");
           const user = await prisma.user.findUnique({
             where: { email: credentials.email },
           });
           if (!user || !user.password) return null;
-
           const isValid = await bcrypt.compare(credentials.password, user.password);
           if (!isValid) return null;
-
           return { id: user.id, email: user.email, name: user.name };
         } catch {
           return null;
@@ -56,23 +47,8 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
 
-  // Use Prisma adapter + database sessions when DB is configured
-  ...(hasDB
-    ? {
-        adapter: (() => {
-          try {
-            const { PrismaAdapter } = require("@auth/prisma-adapter");
-            const { prisma } = require("./prisma");
-            return PrismaAdapter(prisma);
-          } catch {
-            return undefined;
-          }
-        })(),
-        session: { strategy: "database" as const },
-      }
-    : {
-        session: { strategy: "jwt" as const },
-      }),
+  // Always use JWT — simpler and works without DB session table
+  session: { strategy: "jwt" },
 
   pages: {
     signIn: "/ja/auth/signin",
@@ -80,22 +56,29 @@ export const authOptions: NextAuthOptions = {
   },
 
   callbacks: {
-    async session({ session, user, token }) {
-      if (session.user) {
-        // database strategy uses `user`, jwt strategy uses `token`
-        (session.user as any).id = user?.id ?? token?.id;
-        session.user.name = user?.name ?? token?.name ?? session.user.name;
-        session.user.email = user?.email ?? token?.email ?? session.user.email;
-        session.user.image = user?.image ?? (token?.picture as string) ?? session.user.image;
-      }
-      return session;
-    },
-    async jwt({ token, user }) {
+    async jwt({ token, user, account, profile }) {
       if (user) {
         token.id = user.id;
         token.name = user.name;
+        token.email = user.email;
+        token.picture = user.image;
+      }
+      // For Google OAuth — profile contains name and picture
+      if (account?.provider === "google" && profile) {
+        token.name = (profile as any).name;
+        token.picture = (profile as any).picture;
+        token.email = (profile as any).email;
       }
       return token;
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        (session.user as any).id = token.id;
+        session.user.name = token.name as string;
+        session.user.email = token.email as string;
+        session.user.image = token.picture as string;
+      }
+      return session;
     },
   },
 

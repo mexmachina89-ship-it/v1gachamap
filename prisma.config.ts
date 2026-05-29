@@ -1,4 +1,4 @@
-// @ts-ignore — Prisma 7 config file
+// @ts-ignore
 import { defineConfig } from "prisma/config";
 
 export default defineConfig({
