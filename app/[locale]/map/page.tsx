@@ -60,6 +60,7 @@ function MapContent() {
   const [center, setCenter] = useState(defaultCenter);
   const [showGoogle, setShowGoogle] = useState(true);
   const [showSmart, setShowSmart] = useState(true);
+  const [showSns, setShowSns] = useState(true);
   const [smartLoading, setSmartLoading] = useState(false);
   const [smartNote, setSmartNote] = useState<string | null>(null);
   const mapRef = useRef<google.maps.Map | null>(null);
@@ -192,27 +193,43 @@ function MapContent() {
             <Navigation size={18} className="text-pink-500" />
           </button>
 
-          {/* レイヤー切り替え */}
-          <div className="flex items-center gap-2 ml-auto">
-            <Layers size={16} className="text-gray-400" />
+          {/* レイヤー切り替え（3つ） */}
+          <div className="flex items-center gap-1.5 ml-auto flex-wrap justify-end">
+            <Layers size={16} className="text-gray-400 flex-shrink-0" />
+            {/* ① ガシャどこ記事（ピンク） */}
             <button
               onClick={() => setShowGoogle((v) => !v)}
               className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-bold border-2 transition-all ${
                 showGoogle ? "bg-pink-100 border-pink-400 text-pink-700" : "bg-white border-gray-200 text-gray-400"
               }`}
             >
-              🎰 Google
-              <span className="bg-pink-500 text-white rounded-full px-1.5 text-xs">{stores.length}</span>
+              🎰 ガシャどこ記事
+              <span className={`${showGoogle ? "bg-pink-500" : "bg-gray-300"} text-white rounded-full px-1.5 text-xs`}>{stores.length}</span>
             </button>
+            {/* ② バンダイ設置店（紫） */}
             <button
               onClick={() => setShowSmart((v) => !v)}
               className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-bold border-2 transition-all ${
                 showSmart ? "bg-purple-100 border-purple-400 text-purple-700" : "bg-white border-gray-200 text-gray-400"
               }`}
             >
-              {smartLoading ? <RefreshCw size={10} className="animate-spin" /> : "✨"}
-              スマートピン
-              <span className="bg-purple-500 text-white rounded-full px-1.5 text-xs">{totalSmartPins}</span>
+              {smartLoading ? <RefreshCw size={10} className="animate-spin" /> : "🏪"}
+              バンダイ設置店
+              <span className={`${showSmart ? "bg-purple-500" : "bg-gray-300"} text-white rounded-full px-1.5 text-xs`}>
+                {smartPins.filter((p) => p.type === "official" || p.type === "web-article").length}
+              </span>
+            </button>
+            {/* ③ SNS投稿（オレンジ） */}
+            <button
+              onClick={() => setShowSns((v) => !v)}
+              className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-bold border-2 transition-all ${
+                showSns ? "bg-orange-100 border-orange-400 text-orange-700" : "bg-white border-gray-200 text-gray-400"
+              }`}
+            >
+              📱 SNS投稿
+              <span className={`${showSns ? "bg-orange-500" : "bg-gray-300"} text-white rounded-full px-1.5 text-xs`}>
+                {smartPins.filter((p) => p.type === "sns").length}
+              </span>
             </button>
           </div>
         </div>
@@ -251,18 +268,35 @@ function MapContent() {
               />
             ))}
 
-            {/* スマートピン（SNS📱・記事📍・公式🏪） */}
-            {showSmart && smartPins.map((pin) => {
-              const cfg = PIN_CONFIG[pin.type] || PIN_CONFIG.sns;
-              return (
-                <Marker
-                  key={pin.id}
-                  position={{ lat: pin.lat, lng: pin.lng }}
-                  onClick={() => setSelectedPin({ type: "smart", pin })}
-                  icon={makeMarkerIcon(cfg.emoji, cfg.fill, new google.maps.Size(44, 44))}
-                />
-              );
-            })}
+            {/* スマートピン（記事📍・公式🏪） */}
+            {showSmart && smartPins
+              .filter((p) => p.type === "official" || p.type === "web-article")
+              .map((pin) => {
+                const cfg = PIN_CONFIG[pin.type] || PIN_CONFIG.sns;
+                return (
+                  <Marker
+                    key={pin.id}
+                    position={{ lat: pin.lat, lng: pin.lng }}
+                    onClick={() => setSelectedPin({ type: "smart", pin })}
+                    icon={makeMarkerIcon(cfg.emoji, cfg.fill, new google.maps.Size(44, 44))}
+                  />
+                );
+              })}
+
+            {/* SNSピン（📱オレンジ） */}
+            {showSns && smartPins
+              .filter((p) => p.type === "sns")
+              .map((pin) => {
+                const cfg = PIN_CONFIG.sns;
+                return (
+                  <Marker
+                    key={pin.id}
+                    position={{ lat: pin.lat, lng: pin.lng }}
+                    onClick={() => setSelectedPin({ type: "smart", pin })}
+                    icon={makeMarkerIcon(cfg.emoji, cfg.fill, new google.maps.Size(44, 44))}
+                  />
+                );
+              })}
 
             {/* Google InfoWindow */}
             {selectedPin?.type === "google" && (
@@ -296,10 +330,9 @@ function MapContent() {
           {/* 凡例 */}
           <div className="absolute bottom-4 left-4 bg-white rounded-xl shadow-lg border-2 border-gray-100 p-3 text-xs space-y-1.5">
             <p className="font-black text-gray-600 text-xs mb-2">{locale === "ja" ? "凡例" : "Legend"}</p>
-            <div className="flex items-center gap-2"><span>🎰</span><span className="text-gray-600">Google検索 ({stores.length})</span></div>
-            <div className="flex items-center gap-2"><span>📱</span><span className="text-gray-600">SNS情報 ({pinCountByType.sns})</span></div>
-            <div className="flex items-center gap-2"><span>📍</span><span className="text-gray-600">ガシャどこ記事 ({pinCountByType["web-article"]})</span></div>
-            <div className="flex items-center gap-2"><span>🏪</span><span className="text-gray-600">バンダイ公式 ({pinCountByType.official})</span></div>
+            <div className="flex items-center gap-2"><span>🎰</span><span className="text-gray-600">ガシャどこ記事 ({stores.length})</span></div>
+            <div className="flex items-center gap-2"><span>🏪</span><span className="text-gray-600">バンダイ設置店 ({pinCountByType.official + pinCountByType["web-article"]})</span></div>
+            <div className="flex items-center gap-2"><span>📱</span><span className="text-gray-600">SNS投稿 ({pinCountByType.sns})</span></div>
           </div>
         </div>
 
@@ -315,7 +348,7 @@ function MapContent() {
             {/* スマートピン一覧 */}
             {showSmart && smartPins.length > 0 && (
               <div className="p-3">
-                <p className="text-xs font-black text-purple-500 mb-2">✨ スマートピン ({totalSmartPins})</p>
+                <p className="text-xs font-black text-purple-500 mb-2">✨ スマートピン一覧 ({totalSmartPins})</p>
                 <div className="space-y-2">
                   {smartPins.map((pin) => {
                     const cfg = PIN_CONFIG[pin.type] || PIN_CONFIG.sns;
