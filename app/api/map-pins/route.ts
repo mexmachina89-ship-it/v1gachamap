@@ -9,61 +9,54 @@ export interface MapPin {
   lat: number;
   lng: number;
   storeName: string;
+  address: string;
   posts: SocialPost[];
 }
 
-// SNS投稿テキストから具体的な店舗名を抽出
-function extractStoreNames(text: string): string[] {
-  const stores: string[] = [];
+// 投稿テキストから店舗チェーン名を抽出（シンプルに）
+const STORE_CHAINS = [
+  "イオンモール",
+  "イオン",
+  "ゲオ",
+  "トイザらス",
+  "ヨドバシ",
+  "ドンキホーテ",
+  "ドンキ",
+  "アピタ",
+  "ローソン",
+  "ファミリーマート",
+  "ファミマ",
+  "セブンイレブン",
+  "コンビニ",
+  "ガチャポン会館",
+  "ガシャポンバンダイオフィシャルショップ",
+];
 
-  // 具体的な店舗名パターン（例: "イオンモール幕張"、"ゲオ渋谷店"）
-  const branchPatterns: RegExp[] = [
-    /イオンモール[぀-ヿ一-鿿\w]{1,10}/g,
-    /イオン[぀-ヿ一-鿿\w]{1,10}店/g,
-    /ゲオ[぀-ヿ一-鿿\w]{1,10}店/g,
-    /トイザらス[぀-ヿ一-鿿\w]{0,10}店?/g,
-    /ヨドバシ[぀-ヿ一-鿿\w]{1,10}/g,
-    /ドン・?キホーテ[぀-ヿ一-鿿\w]{0,10}/g,
-    /ドンキ[぀-ヿ一-鿿\w]{1,10}/g,
-    /アピタ[぀-ヿ一-鿿\w]{1,10}/g,
-    /ローソン[぀-ヿ一-鿿\w]{1,10}/g,
-    /ファミリーマート[぀-ヿ一-鿿\w]{1,10}/g,
-    /ファミマ[぀-ヿ一-鿿\w]{1,10}/g,
-    /セブン-?イレブン[぀-ヿ一-鿿\w]{1,10}/g,
-  ];
-
-  for (const pattern of branchPatterns) {
-    const matches = text.match(pattern);
-    if (matches) stores.push(...matches);
-  }
-
-  // エリア + 店舗チェーン（例: "渋谷のゲオ"、"新宿イオン"）
-  const areaStorePattern =
-    /([぀-ヿ一-鿿]{2,6})(の|で|にある|の近くの)?(イオン|ゲオ|ヨドバシ|ドンキ|トイザらス|アピタ|ローソン|ファミマ|セブン)/g;
-  let match: RegExpExecArray | null;
-  while ((match = areaStorePattern.exec(text)) !== null) {
-    stores.push(`${match[1]} ${match[3]}`);
-  }
-
-  // 重複排除・最大3件
-  return [...new Set(stores)].slice(0, 3);
+function extractChains(text: string): string[] {
+  return STORE_CHAINS.filter((chain) => text.includes(chain));
 }
 
-async function geocode(
-  storeName: string,
+// Google Places Text Search（サーバーサイド REST API）
+async function placesTextSearch(
+  query: string,
   apiKey: string
-): Promise<{ lat: number; lng: number } | null> {
+): Promise<{ name: string; address: string; lat: number; lng: number; placeId: string }[]> {
   try {
-    const address = encodeURIComponent(`${storeName} 日本`);
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${apiKey}&language=ja&region=JP`;
-    const res = await fetch(url, { next: { revalidate: 3600 } });
+    const encoded = encodeURIComponent(query);
+    const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encoded}&key=${apiKey}&language=ja&region=JP`;
+    const res = await fetch(url);
     const data = await res.json();
-    if (data.status === "OK" && data.results?.[0]) {
-      const loc = data.results[0].geometry.location;
-      return { lat: loc.lat, lng: loc.lng };
-    }
-  } catch {}
-  return null;
+    if (data.status !== "OK" || !data.results) return [];
+    return data.results.slice(0, 3).map((r: any) => ({
+      name: r.name,
+      address: r.formatted_address || "",
+      lat: r.geometry.location.lat,
+      lng: r.geometry.location.lng,
+      placeId: r.place_id,
+    }));
+  } catch {
+    return [];
+  }
 }
 
 export async function GET(req: NextRequest) {
@@ -73,14 +66,13 @@ export async function GET(req: NextRequest) {
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "";
   if (!apiKey) return NextResponse.json({ pins: [], error: "no_maps_key" });
 
-  // SNS投稿をキャッシュから取得（Apify呼び出しなし）
+  // キャッシュからSNS投稿を取得（Apify呼び出しなし）
   let posts: SocialPost[] = [];
   try {
     const cached = await getCachedResults(query, "all");
-    if (cached) {
+    if (cached && cached.length > 0) {
       posts = cached;
     } else {
-      // allキャッシュがなければ各プラットフォームのキャッシュを結合
       const [tw, ig, tt] = await Promise.all([
         getCachedResults(query, "twitter"),
         getCachedResults(query, "instagram"),
@@ -90,41 +82,57 @@ export async function GET(req: NextRequest) {
     }
   } catch {}
 
-  if (posts.length === 0) {
-    return NextResponse.json({ pins: [], note: "no_cached_posts" });
-  }
+  // キャッシュがなければクエリだけでガチャ店舗を検索
+  let chainsToSearch: string[];
+  const chainPostMap = new Map<string, SocialPost[]>();
 
-  // 投稿ごとに店舗名を抽出してマップに集約
-  const storePostMap = new Map<string, SocialPost[]>();
-  for (const post of posts) {
-    const storeNames = extractStoreNames(post.text);
-    for (const name of storeNames) {
-      if (!storePostMap.has(name)) storePostMap.set(name, []);
-      storePostMap.get(name)!.push(post);
+  if (posts.length === 0) {
+    // SNSキャッシュなし → 定番チェーンで検索
+    chainsToSearch = ["イオン", "ゲオ", "トイザらス", "ヨドバシ", "ドンキ"];
+  } else {
+    // SNS投稿からチェーン名を抽出
+    for (const post of posts) {
+      const chains = extractChains(post.text);
+      for (const chain of chains) {
+        if (!chainPostMap.has(chain)) chainPostMap.set(chain, []);
+        chainPostMap.get(chain)!.push(post);
+      }
+    }
+
+    if (chainPostMap.size === 0) {
+      // 投稿に店舗名なし → 定番チェーンで検索
+      chainsToSearch = ["イオン", "ゲオ", "トイザらス", "ヨドバシ", "ドンキ"];
+    } else {
+      chainsToSearch = [...chainPostMap.keys()];
     }
   }
 
-  if (storePostMap.size === 0) {
-    return NextResponse.json({ pins: [], note: "no_stores_extracted" });
-  }
-
-  // 最大10店舗を並列ジオコーディング
-  const entries = [...storePostMap.entries()].slice(0, 10);
+  // 各チェーンに対してGoogle Places検索（最大5チェーン）
   const pins: MapPin[] = [];
+  const seen = new Set<string>(); // placeId重複排除
 
   await Promise.all(
-    entries.map(async ([storeName, relatedPosts]) => {
-      const coords = await geocode(storeName, apiKey);
-      if (coords) {
+    chainsToSearch.slice(0, 5).map(async (chain) => {
+      const searchQuery = `${chain} ${query} ガチャ カプセルトイ`;
+      const places = await placesTextSearch(searchQuery, apiKey);
+      for (const place of places) {
+        if (seen.has(place.placeId)) continue;
+        seen.add(place.placeId);
         pins.push({
-          id: `sns-${storeName}`,
-          ...coords,
-          storeName,
-          posts: relatedPosts.slice(0, 3),
+          id: `sns-${place.placeId}`,
+          lat: place.lat,
+          lng: place.lng,
+          storeName: place.name,
+          address: place.address,
+          posts: (chainPostMap.get(chain) || []).slice(0, 3),
         });
       }
     })
   );
 
-  return NextResponse.json({ pins });
+  return NextResponse.json({
+    pins,
+    source: posts.length > 0 ? "sns_cache" : "default_search",
+    postCount: posts.length,
+  });
 }

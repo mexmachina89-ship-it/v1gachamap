@@ -101,10 +101,10 @@ function MapContent() {
       const res = await fetch(`/api/map-pins?q=${encodeURIComponent(query)}`);
       const data = await res.json();
       setSnsPins(data.pins || []);
-      if (data.note === "no_cached_posts") {
-        setSnsNote(locale === "ja" ? "SNS検索後にピンが表示されます" : "Search SNS first to show pins");
-      } else if (data.note === "no_stores_extracted") {
-        setSnsNote(locale === "ja" ? "投稿から店舗情報を抽出できませんでした" : "No store info found in posts");
+      if (data.source === "default_search") {
+        setSnsNote(locale === "ja" ? "SNS検索のキャッシュがないため定番店舗で表示中" : "Showing default stores (no SNS cache)");
+      } else if (data.pins?.length === 0) {
+        setSnsNote(locale === "ja" ? "該当するガチャ設置店舗が見つかりませんでした" : "No gacha stores found");
       }
     } catch {
       setSnsPins([]);
@@ -337,12 +337,17 @@ function MapContent() {
                 onCloseClick={() => setSelectedPin(null)}
               >
                 <div className="max-w-xs">
-                  <p className="font-bold text-gray-800 flex items-center gap-1 mb-2">
+                  <p className="font-bold text-gray-800 flex items-center gap-1 mb-1">
                     📱 {selectedPin.pin.storeName}
                   </p>
-                  <p className="text-xs text-orange-500 font-semibold mb-2">
-                    SNS投稿より {selectedPin.pin.posts.length}件の情報
-                  </p>
+                  {selectedPin.pin.address && (
+                    <p className="text-xs text-gray-500 mb-1">{selectedPin.pin.address}</p>
+                  )}
+                  {selectedPin.pin.posts.length > 0 && (
+                    <p className="text-xs text-orange-500 font-semibold mb-2">
+                      SNS投稿より {selectedPin.pin.posts.length}件の情報
+                    </p>
+                  )}
                   <div className="space-y-2 max-h-48 overflow-y-auto">
                     {selectedPin.pin.posts.map((post) => (
                       <SnsPostMini key={post.id} post={post} />
@@ -414,13 +419,13 @@ function MapContent() {
                       <p className="font-bold text-gray-800 text-sm flex items-center gap-1">
                         📱 {pin.storeName}
                       </p>
-                      <p className="text-xs text-orange-500 mt-0.5">
-                        <MessageCircle size={10} className="inline mr-1" />
-                        {pin.posts.length}件の投稿
-                      </p>
-                      {pin.posts[0] && (
-                        <p className="text-xs text-gray-400 mt-1 line-clamp-2">
-                          {pin.posts[0].text}
+                      {pin.address && (
+                        <p className="text-xs text-gray-500 mt-0.5 line-clamp-1">{pin.address}</p>
+                      )}
+                      {pin.posts.length > 0 && (
+                        <p className="text-xs text-orange-500 mt-0.5">
+                          <MessageCircle size={10} className="inline mr-1" />
+                          {pin.posts.length}件のSNS投稿
                         </p>
                       )}
                     </button>
