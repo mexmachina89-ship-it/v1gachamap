@@ -42,6 +42,7 @@ export async function GET(req: NextRequest) {
   // 検索履歴をDBに記録（fire-and-forget）
   try {
     const { prisma } = await import("@/lib/prisma");
+    // 累積カウント更新
     const existing = await prisma.search.findFirst({ where: { query } });
     if (existing) {
       await prisma.search.update({
@@ -51,6 +52,8 @@ export async function GET(req: NextRequest) {
     } else {
       await prisma.search.create({ data: { query } });
     }
+    // 期間別ランキング用ログ記録
+    await prisma.searchLog.create({ data: { query } });
   } catch {
     // DB未設定の場合はスキップ
   }

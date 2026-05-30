@@ -64,6 +64,16 @@ model Search {
   user      User?    @relation(fields: [userId], references: [id])
 }
 
+// 検索ログ（期間別ランキング・トレンド計算用）
+model SearchLog {
+  id        String   @id @default(cuid())
+  query     String
+  createdAt DateTime @default(now())
+
+  @@index([query, createdAt])
+  @@index([createdAt])
+}
+
 model GachaItem {
   id          String   @id @default(cuid())
   name        String
