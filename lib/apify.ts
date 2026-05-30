@@ -225,12 +225,12 @@ export async function searchAllSocial(query: string): Promise<SocialPost[]> {
   const cached = await getCachedResults(query, "all");
   if (cached) return cached;
 
-  const [twitter, instagram, tiktok] = await Promise.all([
+  // TikTokはガチャ投稿が極端に少ないため除外（速度改善）
+  const [twitter, instagram] = await Promise.all([
     searchTwitter(query),
     searchInstagram(query),
-    searchTikTok(query),
   ]);
-  const combined = filterGachaRelevant([...twitter, ...instagram, ...tiktok]);
+  const combined = filterGachaRelevant([...twitter, ...instagram]);
   await setCachedResults(query, "all", combined);
   return combined;
 }

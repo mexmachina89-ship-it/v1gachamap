@@ -8,7 +8,7 @@ import GachaCard from "@/components/GachaCard";
 import SocialPostCard from "@/components/SocialPostCard";
 import type { SocialPost } from "@/lib/apify";
 
-type FilterType = "all" | "web" | "twitter" | "instagram" | "tiktok";
+type FilterType = "all" | "web" | "twitter" | "instagram";
 
 interface GachaItem {
   id: string;
@@ -63,7 +63,6 @@ function SearchContent() {
     { key: "web", label: t("filterWeb") },
     { key: "twitter", label: t("filterX") },
     { key: "instagram", label: t("filterInstagram") },
-    { key: "tiktok", label: t("filterTiktok") },
   ];
 
   const filteredSocial = filter === "all" ? social : social.filter((p) => p.platform === filter);
