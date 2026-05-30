@@ -1,8 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { ExternalLink, Tag, Layers, Calendar, Factory } from "lucide-react";
+import { ExternalLink, Tag, Layers, Calendar, Factory, Package } from "lucide-react";
 import type { GachaWebResult } from "@/lib/webScraper";
+import WishlistButton from "./WishlistButton";
+import CollectionButton from "./CollectionButton";
 
 const sourceConfig: Record<
   string,
@@ -107,8 +109,12 @@ export default function WebResultCard({ result }: { result: GachaWebResult }) {
           <p className="text-xs text-gray-500 line-clamp-2 mb-3">{result.description}</p>
         )}
 
-        {/* リンク */}
-        <div className="mt-auto">
+        {/* アクションボタン */}
+        <div className="mt-auto space-y-2">
+          <div className="flex gap-1.5">
+            <WishlistButton item={result} size="sm" />
+            <CollectionButton item={result} size="sm" />
+          </div>
           <a
             href={result.url}
             target="_blank"

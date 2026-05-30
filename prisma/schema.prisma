@@ -7,17 +7,20 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String          @id @default(cuid())
   name          String?
-  email         String    @unique
+  email         String          @unique
   emailVerified DateTime?
   image         String?
   password      String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
   accounts      Account[]
   sessions      Session[]
   searches      Search[]
+  wishlists     Wishlist[]
+  collections   Collection[]
+  storeFavorites StoreFavorite[]
 }
 
 model Account {
@@ -115,6 +118,62 @@ model WebScrapeCache {
 
   @@unique([query, source])
   @@index([query, source])
+}
+
+// ── ユーザー機能 ──────────────────────────────────────────
+
+// ウィッシュリスト（ほしいものリスト）
+model Wishlist {
+  id        String   @id @default(cuid())
+  userId    String
+  itemName  String
+  itemUrl   String
+  imageUrl  String?
+  price     String?
+  source    String   // "gacha-island" | "gashadoko" | "gashapon"
+  memo      String?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@unique([userId, itemUrl])
+}
+
+// マイコレクション（所持ガチャ管理）
+model Collection {
+  id         String   @id @default(cuid())
+  userId     String
+  itemName   String
+  itemUrl    String
+  imageUrl   String?
+  source     String
+  totalTypes Int?     // 全N種
+  ownedTypes Int      @default(1) // 所持数
+  memo       String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@unique([userId, itemUrl])
+}
+
+// お気に入り店舗
+model StoreFavorite {
+  id        String   @id @default(cuid())
+  userId    String
+  storeName String
+  address   String?
+  lat       Float?
+  lng       Float?
+  placeId   String?
+  pinType   String?  // "sns" | "official" | "web-article" | "google"
+  memo      String?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@unique([userId, storeName, address])
 }
 
 // SNS検索結果キャッシュ（24時間有効）

@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import type { MapPin as SnsMapPin, PinType } from "@/app/api/map-pins/route";
 import type { SocialPost } from "@/lib/apify";
+import StoreFavoriteButton from "@/components/StoreFavoriteButton";
 
 const mapContainerStyle = { width: "100%", height: "100%" };
 const defaultCenter = { lat: 35.6762, lng: 139.6503 };
@@ -298,11 +299,21 @@ function MapContent() {
                 <div className="p-2 max-w-xs">
                   <p className="font-bold text-gray-800">🎰 {selectedPin.store.name}</p>
                   <p className="text-sm text-gray-500 mt-1">{selectedPin.store.address}</p>
-                  <a
-                    href={`https://www.google.com/maps/dir/?api=1&destination=${selectedPin.store.lat},${selectedPin.store.lng}`}
-                    target="_blank" rel="noopener noreferrer"
-                    className="mt-2 block text-xs text-blue-500 hover:underline"
-                  >{t("directions")} →</a>
+                  <div className="mt-2 flex items-center gap-2">
+                    <StoreFavoriteButton
+                      storeName={selectedPin.store.name}
+                      address={selectedPin.store.address}
+                      lat={selectedPin.store.lat}
+                      lng={selectedPin.store.lng}
+                      pinType="google"
+                      size="sm"
+                    />
+                    <a
+                      href={`https://www.google.com/maps/dir/?api=1&destination=${selectedPin.store.lat},${selectedPin.store.lng}`}
+                      target="_blank" rel="noopener noreferrer"
+                      className="text-xs text-blue-500 hover:underline"
+                    >{t("directions")} →</a>
+                  </div>
                 </div>
               </InfoWindow>
             )}
@@ -459,13 +470,23 @@ function SmartPinInfoWindow({ pin, directionsLabel }: { pin: SnsMapPin; directio
         </div>
       )}
 
-      <a
-        href={`https://www.google.com/maps/dir/?api=1&destination=${pin.lat},${pin.lng}`}
-        target="_blank" rel="noopener noreferrer"
-        className="block text-xs text-blue-500 hover:underline"
-      >
-        {directionsLabel} →
-      </a>
+      <div className="flex items-center gap-2 mt-1">
+        <StoreFavoriteButton
+          storeName={pin.storeName}
+          address={pin.address}
+          lat={pin.lat}
+          lng={pin.lng}
+          pinType={pin.type}
+          size="sm"
+        />
+        <a
+          href={`https://www.google.com/maps/dir/?api=1&destination=${pin.lat},${pin.lng}`}
+          target="_blank" rel="noopener noreferrer"
+          className="text-xs text-blue-500 hover:underline"
+        >
+          {directionsLabel} →
+        </a>
+      </div>
     </div>
   );
 }

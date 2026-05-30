@@ -63,8 +63,18 @@ export const authOptions: NextAuthOptions = {
         token.email = user.email;
         token.picture = user.image;
       }
-      // For Google OAuth — profile contains name and picture
+      // For Google OAuth — DBにupsertしてIDを確保
       if (account?.provider === "google" && profile) {
+        try {
+          const { prisma } = await import("./prisma");
+          const email = (profile as any).email as string;
+          const dbUser = await prisma.user.upsert({
+            where: { email },
+            update: { name: (profile as any).name, image: (profile as any).picture },
+            create: { email, name: (profile as any).name, image: (profile as any).picture },
+          });
+          token.id = dbUser.id;
+        } catch {}
         token.name = (profile as any).name;
         token.picture = (profile as any).picture;
         token.email = (profile as any).email;

@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
 import { signOut, useSession } from "next-auth/react";
 import { useState } from "react";
-import { Menu, X, Globe, User, LogOut, TrendingUp, Map, Search } from "lucide-react";
+import { Menu, X, Globe, User, LogOut, TrendingUp, Map, Search, Heart } from "lucide-react";
 
 export default function Header() {
   const t = useTranslations("nav");
@@ -26,6 +26,7 @@ export default function Header() {
     { href: `/${locale}/search`, label: t("search"), icon: <Search size={16} /> },
     { href: `/${locale}/map`, label: t("map"), icon: <Map size={16} /> },
     { href: `/${locale}/ranking`, label: t("ranking"), icon: <TrendingUp size={16} /> },
+    ...(session ? [{ href: `/${locale}/mypage`, label: "マイページ", icon: <Heart size={16} /> }] : []),
   ];
 
   return (
