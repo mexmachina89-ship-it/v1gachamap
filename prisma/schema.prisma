@@ -94,6 +94,19 @@ model GachaLocation {
   gachaItem   GachaItem @relation(fields: [gachaItemId], references: [id])
 }
 
+// Webスクレイピング結果キャッシュ（6時間有効）
+model WebScrapeCache {
+  id        String   @id @default(cuid())
+  query     String
+  source    String   // "gacha-island" | "gashadoko" | "gashapon"
+  results   Json     // GachaWebResult[]
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+
+  @@unique([query, source])
+  @@index([query, source])
+}
+
 // SNS検索結果キャッシュ（24時間有効）
 model SocialPostCache {
   id        String   @id @default(cuid())

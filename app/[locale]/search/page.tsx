@@ -4,24 +4,12 @@ import { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { Search, Filter, Loader2 } from "lucide-react";
-import GachaCard from "@/components/GachaCard";
 import SocialPostCard from "@/components/SocialPostCard";
+import WebResultCard from "@/components/WebResultCard";
 import type { SocialPost } from "@/lib/apify";
+import type { GachaWebResult } from "@/lib/webScraper";
 
 type FilterType = "all" | "web" | "twitter" | "instagram";
-
-interface GachaItem {
-  id: string;
-  name: string;
-  nameEn?: string | null;
-  description?: string | null;
-  imageUrl?: string | null;
-  price?: number | null;
-  series?: string | null;
-  maker?: string | null;
-  tags: string[];
-  sourceType?: string | null;
-}
 
 function SearchContent() {
   const t = useTranslations("search");
@@ -32,8 +20,8 @@ function SearchContent() {
 
   const [inputValue, setInputValue] = useState(query);
   const [filter, setFilter] = useState<FilterType>("all");
-  const [items, setItems] = useState<GachaItem[]>([]);
   const [social, setSocial] = useState<SocialPost[]>([]);
+  const [web, setWeb] = useState<GachaWebResult[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -42,10 +30,12 @@ function SearchContent() {
     const fetchResults = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`/api/search?q=${encodeURIComponent(query)}&filter=${filter}`);
+        const res = await fetch(
+          `/api/search?q=${encodeURIComponent(query)}&filter=${filter}`
+        );
         const data = await res.json();
-        setItems(data.items || []);
         setSocial(data.social || []);
+        setWeb(data.web || []);
       } finally {
         setLoading(false);
       }
@@ -65,20 +55,29 @@ function SearchContent() {
     { key: "instagram", label: t("filterInstagram") },
   ];
 
-  const filteredSocial = filter === "all" ? social : social.filter((p) => p.platform === filter);
+  const filteredSocial =
+    filter === "all" ? social : social.filter((p) => p.platform === filter);
+
+  const showWeb = filter === "all" || filter === "web";
+  const totalCount = (showWeb ? web.length : 0) + filteredSocial.length;
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      {/* Search bar */}
+      {/* 検索バー */}
       <div className="flex gap-2 mb-8">
         <div className="flex-1 relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+          <Search
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+            size={20}
+          />
           <input
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-            placeholder={locale === "ja" ? "ガチャを検索..." : "Search gacha..."}
+            placeholder={
+              locale === "ja" ? "ガチャを検索..." : "Search gacha..."
+            }
             className="w-full pl-12 pr-4 py-3 rounded-full border-2 border-pink-300 focus:outline-none focus:border-pink-500 text-base font-medium"
           />
         </div>
@@ -92,16 +91,16 @@ function SearchContent() {
 
       {query && (
         <h1 className="text-2xl font-black text-gray-800 mb-6">
-          「{query}」 {locale === "ja" ? "の検索結果" : "Search Results"}
+          「{query}」{locale === "ja" ? " の検索結果" : " Search Results"}
           {!loading && (
             <span className="ml-3 text-base font-medium text-gray-500">
-              {items.length + filteredSocial.length} {t("results")}
+              {totalCount} {t("results")}
             </span>
           )}
         </h1>
       )}
 
-      {/* Filter tabs */}
+      {/* フィルタータブ */}
       <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
         <Filter size={18} className="text-gray-400 mt-2 flex-shrink-0" />
         {filterTabs.map(({ key, label }) => (
@@ -126,27 +125,54 @@ function SearchContent() {
         </div>
       ) : (
         <>
-          {/* Gacha items */}
-          {(filter === "all" || filter === "web") && items.length > 0 && (
+          {/* ── Web情報（ガチャアイランド・ガシャどこ・バンダイ公式） ── */}
+          {showWeb && web.length > 0 && (
             <section className="mb-10">
               <h2 className="text-lg font-bold text-gray-700 mb-4 flex items-center gap-2">
-                🎰 {locale === "ja" ? "ガチャ情報" : "Gacha Items"}
-                <span className="text-sm font-medium text-gray-400">({items.length})</span>
+                🌐{" "}
+                {locale === "ja"
+                  ? "ガチャ情報サイト"
+                  : "Gacha Info Sites"}
+                <span className="text-sm font-medium text-gray-400">
+                  ({web.length})
+                </span>
+                {/* ソース内訳バッジ */}
+                <span className="ml-2 flex gap-1">
+                  {["gacha-island", "gashadoko", "gashapon"].map((src) => {
+                    const count = web.filter((w) => w.source === src).length;
+                    if (!count) return null;
+                    const icons: Record<string, string> = {
+                      "gacha-island": "🏝️",
+                      gashadoko: "📍",
+                      gashapon: "🔴",
+                    };
+                    return (
+                      <span
+                        key={src}
+                        className="text-xs bg-gray-100 text-gray-500 rounded-full px-2 py-0.5"
+                      >
+                        {icons[src]} {count}
+                      </span>
+                    );
+                  })}
+                </span>
               </h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
-                {items.map((item) => (
-                  <GachaCard key={item.id} item={item} />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                {web.map((result) => (
+                  <WebResultCard key={result.id} result={result} />
                 ))}
               </div>
             </section>
           )}
 
-          {/* Social posts */}
+          {/* ── SNS投稿 ── */}
           {filteredSocial.length > 0 && (
             <section className="mb-10">
               <h2 className="text-lg font-bold text-gray-700 mb-4 flex items-center gap-2">
                 📱 {locale === "ja" ? "SNS投稿" : "Social Posts"}
-                <span className="text-sm font-medium text-gray-400">({filteredSocial.length})</span>
+                <span className="text-sm font-medium text-gray-400">
+                  ({filteredSocial.length})
+                </span>
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {filteredSocial.map((post) => (
@@ -156,12 +182,15 @@ function SearchContent() {
             </section>
           )}
 
-          {!loading && query && items.length === 0 && filteredSocial.length === 0 && (
+          {/* 結果なし */}
+          {!loading && query && totalCount === 0 && (
             <div className="text-center py-20">
               <p className="text-6xl mb-4">🎰</p>
               <p className="text-xl font-bold text-gray-600">{t("noResults")}</p>
               <p className="text-gray-400 mt-2">
-                {locale === "ja" ? "別のキーワードで試してみてください" : "Try a different keyword"}
+                {locale === "ja"
+                  ? "別のキーワードで試してみてください"
+                  : "Try a different keyword"}
               </p>
             </div>
           )}
@@ -170,7 +199,9 @@ function SearchContent() {
             <div className="text-center py-20">
               <p className="text-6xl mb-4">🔍</p>
               <p className="text-xl font-bold text-gray-600">
-                {locale === "ja" ? "キーワードを入力して検索してください" : "Enter a keyword to search"}
+                {locale === "ja"
+                  ? "キーワードを入力して検索してください"
+                  : "Enter a keyword to search"}
               </p>
             </div>
           )}
@@ -182,7 +213,13 @@ function SearchContent() {
 
 export default function SearchPage() {
   return (
-    <Suspense fallback={<div className="flex items-center justify-center py-20"><Loader2 size={48} className="text-pink-500 animate-spin" /></div>}>
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center py-20">
+          <Loader2 size={48} className="text-pink-500 animate-spin" />
+        </div>
+      }
+    >
       <SearchContent />
     </Suspense>
   );
