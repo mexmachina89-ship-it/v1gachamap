@@ -5,10 +5,9 @@ import { useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { GoogleMap, useJsApiLoader, Marker, InfoWindow } from "@react-google-maps/api";
 import {
-  Search, MapPin, Navigation, Loader2, Store,
-  MessageCircle, Heart, ExternalLink, Layers, RefreshCw, BookOpen,
+  Search, MapPin, Navigation, Loader2,
+  Heart, ExternalLink, Layers, RefreshCw, BookOpen,
 } from "lucide-react";
-import { mockStores } from "@/lib/mockData";
 import type { MapPin as SnsMapPin, PinType } from "@/app/api/map-pins/route";
 import type { SocialPost } from "@/lib/apify";
 
@@ -55,7 +54,7 @@ function MapContent() {
 
   const [searchQuery, setSearchQuery] = useState(initialQuery);
   const [selectedPin, setSelectedPin] = useState<SelectedPin | null>(null);
-  const [stores, setStores] = useState<StoreLocation[]>(mockStores);
+  const [stores, setStores] = useState<StoreLocation[]>([]);
   const [smartPins, setSmartPins] = useState<SnsMapPin[]>([]);
   const [center, setCenter] = useState(defaultCenter);
   const [showGoogle, setShowGoogle] = useState(true);
@@ -140,16 +139,8 @@ function MapContent() {
       <div className="max-w-3xl mx-auto px-4 py-16 text-center">
         <MapPin size={64} className="mx-auto text-pink-400 mb-4" />
         <h2 className="text-2xl font-black text-gray-700 mb-3">Google Maps API キーが必要です</h2>
-        <div className="mt-10 text-left space-y-3">
-          {mockStores.map((store) => (
-            <div key={store.id} className="bg-white rounded-xl border-2 border-pink-100 p-4 flex items-start gap-3">
-              <Store size={20} className="text-pink-500 mt-0.5 flex-shrink-0" />
-              <div>
-                <p className="font-bold text-gray-800">{store.name}</p>
-                <p className="text-sm text-gray-500">{store.address}</p>
-              </div>
-            </div>
-          ))}
+        <div className="mt-10 text-center text-gray-400">
+          <p className="text-sm">APIキーを設定してマップを有効化してください</p>
         </div>
       </div>
     );
