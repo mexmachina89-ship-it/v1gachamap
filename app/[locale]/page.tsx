@@ -26,6 +26,7 @@ export default function HomePage() {
   const [query, setQuery] = useState("");
   const [ranking, setRanking] = useState<RankingItem[]>([]);
   const [rankingLoading, setRankingLoading] = useState(true);
+  const [stats, setStats] = useState({ gachaCount: 0, searchCount: 0, userCount: 0 });
 
   useEffect(() => {
     fetch("/api/ranking?period=weekly")
@@ -33,6 +34,11 @@ export default function HomePage() {
       .then((d) => setRanking(d.ranking?.slice(0, 6) || []))
       .catch(() => {})
       .finally(() => setRankingLoading(false));
+
+    fetch("/api/stats")
+      .then((r) => r.json())
+      .then((d) => setStats(d))
+      .catch(() => {});
   }, []);
 
   const handleSearch = (q?: string) => {
@@ -153,9 +159,24 @@ export default function HomePage() {
       <section className="bg-white border-b border-gray-100 py-5 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 flex justify-center gap-8 md:gap-20">
           {[
-            { icon: "capsule", label: locale === "ja" ? "ガチャ情報" : "Gacha Items", value: "10,000+", color: "text-pink-600" },
-            { icon: "🏪", label: locale === "ja" ? "設置店舗" : "Stores", value: "5,000+", color: "text-purple-600" },
-            { icon: "👥", label: locale === "ja" ? "ユーザー" : "Users", value: "50,000+", color: "text-indigo-600" },
+            {
+              icon: "capsule",
+              label: locale === "ja" ? "ガチャ情報" : "Gacha Items",
+              value: stats.gachaCount > 0 ? `${stats.gachaCount.toLocaleString()}件` : "—",
+              color: "text-pink-600",
+            },
+            {
+              icon: "🔍",
+              label: locale === "ja" ? "総検索数" : "Total Searches",
+              value: stats.searchCount > 0 ? `${stats.searchCount.toLocaleString()}回` : "—",
+              color: "text-purple-600",
+            },
+            {
+              icon: "👥",
+              label: locale === "ja" ? "登録ユーザー" : "Users",
+              value: stats.userCount > 0 ? `${stats.userCount.toLocaleString()}人` : "—",
+              color: "text-indigo-600",
+            },
           ].map((stat) => (
             <div key={stat.label} className="text-center group">
               <div className="flex justify-center mb-0.5 group-hover:scale-110 transition-transform">
