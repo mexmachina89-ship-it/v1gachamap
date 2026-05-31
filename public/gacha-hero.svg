@@ -1,0 +1,518 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 600" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <radialGradient id="bgG" cx="50%" cy="35%" r="80%">
+      <stop offset="0%" stop-color="#3b1f6e"/>
+      <stop offset="100%" stop-color="#0d0820"/>
+    </radialGradient>
+    <!-- Capsule top shine -->
+    <linearGradient id="cs" x1="15%" y1="8%" x2="85%" y2="92%">
+      <stop offset="0%" stop-color="white" stop-opacity="0.5"/>
+      <stop offset="65%" stop-color="white" stop-opacity="0"/>
+    </linearGradient>
+    <!-- Soft glow filter -->
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1440" height="600" fill="url(#bgG)"/>
+
+  <!-- Star field -->
+  <circle cx="80"  cy="22"  r="1.2" fill="white" opacity="0.4"/>
+  <circle cx="210" cy="8"   r="0.8" fill="white" opacity="0.3"/>
+  <circle cx="340" cy="18"  r="1.0" fill="white" opacity="0.35"/>
+  <circle cx="490" cy="5"   r="1.4" fill="white" opacity="0.25"/>
+  <circle cx="620" cy="14"  r="0.9" fill="white" opacity="0.4"/>
+  <circle cx="760" cy="3"   r="1.1" fill="white" opacity="0.3"/>
+  <circle cx="900" cy="19"  r="1.3" fill="white" opacity="0.35"/>
+  <circle cx="1040"cy="7"   r="0.8" fill="white" opacity="0.25"/>
+  <circle cx="1180"cy="16"  r="1.0" fill="white" opacity="0.4"/>
+  <circle cx="1350"cy="10"  r="1.2" fill="white" opacity="0.3"/>
+  <circle cx="150" cy="570" r="1.0" fill="white" opacity="0.25"/>
+  <circle cx="440" cy="582" r="1.3" fill="white" opacity="0.2"/>
+  <circle cx="730" cy="590" r="0.9" fill="white" opacity="0.3"/>
+  <circle cx="1020"cy="576" r="1.1" fill="white" opacity="0.25"/>
+  <circle cx="1310"cy="588" r="1.0" fill="white" opacity="0.2"/>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- ROW 1  (y ≈ 55–75) -->
+  <!-- ═══════════════════════════════════════════════ -->
+
+  <!-- #1  R=25  coral-red   translate(90,55)  rot=-22  op=0.82 -->
+  <g transform="translate(90,55) rotate(-22)" opacity="0.82">
+    <ellipse cx="3" cy="28" rx="21" ry="6" fill="black" opacity=".22"/>
+    <path d="M-25,0Q-25,25,0,25Q25,25,25,0Z" fill="#ffb3c6"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="#ff3366"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="url(#cs)"/>
+    <rect x="-25" y="-2.5" width="50" height="5" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-9" cy="-13" rx="8" ry="5" fill="white" opacity=".45" transform="rotate(-25,-9,-13)"/>
+  </g>
+
+  <!-- #2  R=35  blue   translate(232,72)  rot=12  op=0.90 -->
+  <g transform="translate(232,72) rotate(12)" opacity="0.90">
+    <ellipse cx="4" cy="39" rx="30" ry="9" fill="black" opacity=".20"/>
+    <path d="M-35,0Q-35,35,0,35Q35,35,35,0Z" fill="#90caf9"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="#2979ff"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="url(#cs)"/>
+    <rect x="-35" y="-3.5" width="70" height="7" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-12" cy="-18" rx="11" ry="7" fill="white" opacity=".45" transform="rotate(-25,-12,-18)"/>
+  </g>
+
+  <!-- #3  R=16  yellow   translate(385,50)  rot=-8  op=0.72 -->
+  <g transform="translate(385,50) rotate(-8)" opacity="0.72">
+    <path d="M-16,0Q-16,16,0,16Q16,16,16,0Z" fill="#fff3b0"/>
+    <path d="M-16,0Q-16,-16,0,-16Q16,-16,16,0Z" fill="#ffc400"/>
+    <path d="M-16,0Q-16,-16,0,-16Q16,-16,16,0Z" fill="url(#cs)"/>
+    <rect x="-16" y="-1.5" width="32" height="3" fill="white" opacity=".12" rx="1"/>
+    <ellipse cx="-6" cy="-8" rx="5" ry="3" fill="white" opacity=".4" transform="rotate(-25,-6,-8)"/>
+  </g>
+
+  <!-- #4  R=25  green   translate(510,68)  rot=25  op=0.85 -->
+  <g transform="translate(510,68) rotate(25)" opacity="0.85">
+    <ellipse cx="3" cy="28" rx="21" ry="6" fill="black" opacity=".22"/>
+    <path d="M-25,0Q-25,25,0,25Q25,25,25,0Z" fill="#a5d6a7"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="#00c853"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="url(#cs)"/>
+    <rect x="-25" y="-2.5" width="50" height="5" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-9" cy="-13" rx="8" ry="5" fill="white" opacity=".45" transform="rotate(-25,-9,-13)"/>
+  </g>
+
+  <!-- #5  R=35  purple   translate(652,55)  rot=-15  op=0.88 -->
+  <g transform="translate(652,55) rotate(-15)" opacity="0.88">
+    <ellipse cx="4" cy="39" rx="30" ry="9" fill="black" opacity=".20"/>
+    <path d="M-35,0Q-35,35,0,35Q35,35,35,0Z" fill="#e1bee7"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="#9c27b0"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="url(#cs)"/>
+    <rect x="-35" y="-3.5" width="70" height="7" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-12" cy="-18" rx="11" ry="7" fill="white" opacity=".45" transform="rotate(-25,-12,-18)"/>
+  </g>
+
+  <!-- #6  R=16  orange   translate(798,70)  rot=10  op=0.70 -->
+  <g transform="translate(798,70) rotate(10)" opacity="0.70">
+    <path d="M-16,0Q-16,16,0,16Q16,16,16,0Z" fill="#ffccbc"/>
+    <path d="M-16,0Q-16,-16,0,-16Q16,-16,16,0Z" fill="#ff6d00"/>
+    <path d="M-16,0Q-16,-16,0,-16Q16,-16,16,0Z" fill="url(#cs)"/>
+    <rect x="-16" y="-1.5" width="32" height="3" fill="white" opacity=".12" rx="1"/>
+    <ellipse cx="-6" cy="-8" rx="5" ry="3" fill="white" opacity=".4" transform="rotate(-25,-6,-8)"/>
+  </g>
+
+  <!-- #7  R=25  cyan   translate(942,58)  rot=-28  op=0.82 -->
+  <g transform="translate(942,58) rotate(-28)" opacity="0.82">
+    <ellipse cx="3" cy="28" rx="21" ry="6" fill="black" opacity=".22"/>
+    <path d="M-25,0Q-25,25,0,25Q25,25,25,0Z" fill="#b2ebf2"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="#00bcd4"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="url(#cs)"/>
+    <rect x="-25" y="-2.5" width="50" height="5" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-9" cy="-13" rx="8" ry="5" fill="white" opacity=".45" transform="rotate(-25,-9,-13)"/>
+  </g>
+
+  <!-- #8  R=35  hot-pink   translate(1085,72)  rot=20  op=0.90 -->
+  <g transform="translate(1085,72) rotate(20)" opacity="0.90">
+    <ellipse cx="4" cy="39" rx="30" ry="9" fill="black" opacity=".20"/>
+    <path d="M-35,0Q-35,35,0,35Q35,35,35,0Z" fill="#f8a8d4"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="#e91e8c"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="url(#cs)"/>
+    <rect x="-35" y="-3.5" width="70" height="7" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-12" cy="-18" rx="11" ry="7" fill="white" opacity=".45" transform="rotate(-25,-12,-18)"/>
+  </g>
+
+  <!-- #9  R=25  coral-red   translate(1228,52)  rot=-10  op=0.80 -->
+  <g transform="translate(1228,52) rotate(-10)" opacity="0.80">
+    <ellipse cx="3" cy="28" rx="21" ry="6" fill="black" opacity=".22"/>
+    <path d="M-25,0Q-25,25,0,25Q25,25,25,0Z" fill="#ffb3c6"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="#ff3366"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="url(#cs)"/>
+    <rect x="-25" y="-2.5" width="50" height="5" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-9" cy="-13" rx="8" ry="5" fill="white" opacity=".45" transform="rotate(-25,-9,-13)"/>
+  </g>
+
+  <!-- #10  R=16  blue   translate(1382,66)  rot=18  op=0.70 -->
+  <g transform="translate(1382,66) rotate(18)" opacity="0.70">
+    <path d="M-16,0Q-16,16,0,16Q16,16,16,0Z" fill="#90caf9"/>
+    <path d="M-16,0Q-16,-16,0,-16Q16,-16,16,0Z" fill="#2979ff"/>
+    <path d="M-16,0Q-16,-16,0,-16Q16,-16,16,0Z" fill="url(#cs)"/>
+    <rect x="-16" y="-1.5" width="32" height="3" fill="white" opacity=".12" rx="1"/>
+    <ellipse cx="-6" cy="-8" rx="5" ry="3" fill="white" opacity=".4" transform="rotate(-25,-6,-8)"/>
+  </g>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- ROW 2  (y ≈ 185–200) -->
+  <!-- ═══════════════════════════════════════════════ -->
+
+  <!-- #11  R=16  cyan   translate(62,192)  rot=24  op=0.70 -->
+  <g transform="translate(62,192) rotate(24)" opacity="0.70">
+    <path d="M-16,0Q-16,16,0,16Q16,16,16,0Z" fill="#b2ebf2"/>
+    <path d="M-16,0Q-16,-16,0,-16Q16,-16,16,0Z" fill="#00bcd4"/>
+    <path d="M-16,0Q-16,-16,0,-16Q16,-16,16,0Z" fill="url(#cs)"/>
+    <rect x="-16" y="-1.5" width="32" height="3" fill="white" opacity=".12" rx="1"/>
+    <ellipse cx="-6" cy="-8" rx="5" ry="3" fill="white" opacity=".4" transform="rotate(-25,-6,-8)"/>
+  </g>
+
+  <!-- #12  R=25  yellow   translate(205,185)  rot=-14  op=0.82 -->
+  <g transform="translate(205,185) rotate(-14)" opacity="0.82">
+    <ellipse cx="3" cy="28" rx="21" ry="6" fill="black" opacity=".22"/>
+    <path d="M-25,0Q-25,25,0,25Q25,25,25,0Z" fill="#fff3b0"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="#ffc400"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="url(#cs)"/>
+    <rect x="-25" y="-2.5" width="50" height="5" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-9" cy="-13" rx="8" ry="5" fill="white" opacity=".45" transform="rotate(-25,-9,-13)"/>
+  </g>
+
+  <!-- #13  R=35  orange   translate(350,198)  rot=20  op=0.88 -->
+  <g transform="translate(350,198) rotate(20)" opacity="0.88">
+    <ellipse cx="4" cy="39" rx="30" ry="9" fill="black" opacity=".20"/>
+    <path d="M-35,0Q-35,35,0,35Q35,35,35,0Z" fill="#ffccbc"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="#ff6d00"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="url(#cs)"/>
+    <rect x="-35" y="-3.5" width="70" height="7" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-12" cy="-18" rx="11" ry="7" fill="white" opacity=".45" transform="rotate(-25,-12,-18)"/>
+  </g>
+
+  <!-- #14  R=25  hot-pink   translate(492,186)  rot=-22  op=0.80 -->
+  <g transform="translate(492,186) rotate(-22)" opacity="0.80">
+    <ellipse cx="3" cy="28" rx="21" ry="6" fill="black" opacity=".22"/>
+    <path d="M-25,0Q-25,25,0,25Q25,25,25,0Z" fill="#f8a8d4"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="#e91e8c"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="url(#cs)"/>
+    <rect x="-25" y="-2.5" width="50" height="5" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-9" cy="-13" rx="8" ry="5" fill="white" opacity=".45" transform="rotate(-25,-9,-13)"/>
+  </g>
+
+  <!-- #15  R=35  coral-red   translate(636,195)  rot=8  op=0.90 -->
+  <g transform="translate(636,195) rotate(8)" opacity="0.90">
+    <ellipse cx="4" cy="39" rx="30" ry="9" fill="black" opacity=".20"/>
+    <path d="M-35,0Q-35,35,0,35Q35,35,35,0Z" fill="#ffb3c6"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="#ff3366"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="url(#cs)"/>
+    <rect x="-35" y="-3.5" width="70" height="7" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-12" cy="-18" rx="11" ry="7" fill="white" opacity=".45" transform="rotate(-25,-12,-18)"/>
+  </g>
+
+  <!-- #16  R=16  green   translate(788,184)  rot=-18  op=0.72 -->
+  <g transform="translate(788,184) rotate(-18)" opacity="0.72">
+    <path d="M-16,0Q-16,16,0,16Q16,16,16,0Z" fill="#a5d6a7"/>
+    <path d="M-16,0Q-16,-16,0,-16Q16,-16,16,0Z" fill="#00c853"/>
+    <path d="M-16,0Q-16,-16,0,-16Q16,-16,16,0Z" fill="url(#cs)"/>
+    <rect x="-16" y="-1.5" width="32" height="3" fill="white" opacity=".12" rx="1"/>
+    <ellipse cx="-6" cy="-8" rx="5" ry="3" fill="white" opacity=".4" transform="rotate(-25,-6,-8)"/>
+  </g>
+
+  <!-- #17  R=25  purple   translate(932,198)  rot=30  op=0.85 -->
+  <g transform="translate(932,198) rotate(30)" opacity="0.85">
+    <ellipse cx="3" cy="28" rx="21" ry="6" fill="black" opacity=".22"/>
+    <path d="M-25,0Q-25,25,0,25Q25,25,25,0Z" fill="#e1bee7"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="#9c27b0"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="url(#cs)"/>
+    <rect x="-25" y="-2.5" width="50" height="5" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-9" cy="-13" rx="8" ry="5" fill="white" opacity=".45" transform="rotate(-25,-9,-13)"/>
+  </g>
+
+  <!-- #18  R=35  blue   translate(1078,186)  rot=-6  op=0.88 -->
+  <g transform="translate(1078,186) rotate(-6)" opacity="0.88">
+    <ellipse cx="4" cy="39" rx="30" ry="9" fill="black" opacity=".20"/>
+    <path d="M-35,0Q-35,35,0,35Q35,35,35,0Z" fill="#90caf9"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="#2979ff"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="url(#cs)"/>
+    <rect x="-35" y="-3.5" width="70" height="7" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-12" cy="-18" rx="11" ry="7" fill="white" opacity=".45" transform="rotate(-25,-12,-18)"/>
+  </g>
+
+  <!-- #19  R=25  cyan   translate(1222,195)  rot=16  op=0.80 -->
+  <g transform="translate(1222,195) rotate(16)" opacity="0.80">
+    <ellipse cx="3" cy="28" rx="21" ry="6" fill="black" opacity=".22"/>
+    <path d="M-25,0Q-25,25,0,25Q25,25,25,0Z" fill="#b2ebf2"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="#00bcd4"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="url(#cs)"/>
+    <rect x="-25" y="-2.5" width="50" height="5" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-9" cy="-13" rx="8" ry="5" fill="white" opacity=".45" transform="rotate(-25,-9,-13)"/>
+  </g>
+
+  <!-- #20  R=16  yellow   translate(1390,184)  rot=-24  op=0.70 -->
+  <g transform="translate(1390,184) rotate(-24)" opacity="0.70">
+    <path d="M-16,0Q-16,16,0,16Q16,16,16,0Z" fill="#fff3b0"/>
+    <path d="M-16,0Q-16,-16,0,-16Q16,-16,16,0Z" fill="#ffc400"/>
+    <path d="M-16,0Q-16,-16,0,-16Q16,-16,16,0Z" fill="url(#cs)"/>
+    <rect x="-16" y="-1.5" width="32" height="3" fill="white" opacity=".12" rx="1"/>
+    <ellipse cx="-6" cy="-8" rx="5" ry="3" fill="white" opacity=".4" transform="rotate(-25,-6,-8)"/>
+  </g>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- ROW 3  (y ≈ 305–320) -->
+  <!-- ═══════════════════════════════════════════════ -->
+
+  <!-- #21  R=35  purple   translate(128,312)  rot=-12  op=0.88 -->
+  <g transform="translate(128,312) rotate(-12)" opacity="0.88">
+    <ellipse cx="4" cy="39" rx="30" ry="9" fill="black" opacity=".20"/>
+    <path d="M-35,0Q-35,35,0,35Q35,35,35,0Z" fill="#e1bee7"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="#9c27b0"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="url(#cs)"/>
+    <rect x="-35" y="-3.5" width="70" height="7" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-12" cy="-18" rx="11" ry="7" fill="white" opacity=".45" transform="rotate(-25,-12,-18)"/>
+  </g>
+
+  <!-- #22  R=25  coral-red   translate(282,305)  rot=22  op=0.82 -->
+  <g transform="translate(282,305) rotate(22)" opacity="0.82">
+    <ellipse cx="3" cy="28" rx="21" ry="6" fill="black" opacity=".22"/>
+    <path d="M-25,0Q-25,25,0,25Q25,25,25,0Z" fill="#ffb3c6"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="#ff3366"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="url(#cs)"/>
+    <rect x="-25" y="-2.5" width="50" height="5" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-9" cy="-13" rx="8" ry="5" fill="white" opacity=".45" transform="rotate(-25,-9,-13)"/>
+  </g>
+
+  <!-- #23  R=16  cyan   translate(428,316)  rot=-6  op=0.70 -->
+  <g transform="translate(428,316) rotate(-6)" opacity="0.70">
+    <path d="M-16,0Q-16,16,0,16Q16,16,16,0Z" fill="#b2ebf2"/>
+    <path d="M-16,0Q-16,-16,0,-16Q16,-16,16,0Z" fill="#00bcd4"/>
+    <path d="M-16,0Q-16,-16,0,-16Q16,-16,16,0Z" fill="url(#cs)"/>
+    <rect x="-16" y="-1.5" width="32" height="3" fill="white" opacity=".12" rx="1"/>
+    <ellipse cx="-6" cy="-8" rx="5" ry="3" fill="white" opacity=".4" transform="rotate(-25,-6,-8)"/>
+  </g>
+
+  <!-- #24  R=35  orange   translate(575,306)  rot=18  op=0.90 -->
+  <g transform="translate(575,306) rotate(18)" opacity="0.90">
+    <ellipse cx="4" cy="39" rx="30" ry="9" fill="black" opacity=".20"/>
+    <path d="M-35,0Q-35,35,0,35Q35,35,35,0Z" fill="#ffccbc"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="#ff6d00"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="url(#cs)"/>
+    <rect x="-35" y="-3.5" width="70" height="7" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-12" cy="-18" rx="11" ry="7" fill="white" opacity=".45" transform="rotate(-25,-12,-18)"/>
+  </g>
+
+  <!-- #25  R=25  hot-pink   translate(720,314)  rot=-28  op=0.82 -->
+  <g transform="translate(720,314) rotate(-28)" opacity="0.82">
+    <ellipse cx="3" cy="28" rx="21" ry="6" fill="black" opacity=".22"/>
+    <path d="M-25,0Q-25,25,0,25Q25,25,25,0Z" fill="#f8a8d4"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="#e91e8c"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="url(#cs)"/>
+    <rect x="-25" y="-2.5" width="50" height="5" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-9" cy="-13" rx="8" ry="5" fill="white" opacity=".45" transform="rotate(-25,-9,-13)"/>
+  </g>
+
+  <!-- #26  R=35  yellow   translate(868,305)  rot=10  op=0.88 -->
+  <g transform="translate(868,305) rotate(10)" opacity="0.88">
+    <ellipse cx="4" cy="39" rx="30" ry="9" fill="black" opacity=".20"/>
+    <path d="M-35,0Q-35,35,0,35Q35,35,35,0Z" fill="#fff3b0"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="#ffc400"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="url(#cs)"/>
+    <rect x="-35" y="-3.5" width="70" height="7" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-12" cy="-18" rx="11" ry="7" fill="white" opacity=".45" transform="rotate(-25,-12,-18)"/>
+  </g>
+
+  <!-- #27  R=16  green   translate(1015,316)  rot=-20  op=0.72 -->
+  <g transform="translate(1015,316) rotate(-20)" opacity="0.72">
+    <path d="M-16,0Q-16,16,0,16Q16,16,16,0Z" fill="#a5d6a7"/>
+    <path d="M-16,0Q-16,-16,0,-16Q16,-16,16,0Z" fill="#00c853"/>
+    <path d="M-16,0Q-16,-16,0,-16Q16,-16,16,0Z" fill="url(#cs)"/>
+    <rect x="-16" y="-1.5" width="32" height="3" fill="white" opacity=".12" rx="1"/>
+    <ellipse cx="-6" cy="-8" rx="5" ry="3" fill="white" opacity=".4" transform="rotate(-25,-6,-8)"/>
+  </g>
+
+  <!-- #28  R=25  purple   translate(1162,306)  rot=26  op=0.85 -->
+  <g transform="translate(1162,306) rotate(26)" opacity="0.85">
+    <ellipse cx="3" cy="28" rx="21" ry="6" fill="black" opacity=".22"/>
+    <path d="M-25,0Q-25,25,0,25Q25,25,25,0Z" fill="#e1bee7"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="#9c27b0"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="url(#cs)"/>
+    <rect x="-25" y="-2.5" width="50" height="5" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-9" cy="-13" rx="8" ry="5" fill="white" opacity=".45" transform="rotate(-25,-9,-13)"/>
+  </g>
+
+  <!-- #29  R=35  blue   translate(1308,314)  rot=-8  op=0.90 -->
+  <g transform="translate(1308,314) rotate(-8)" opacity="0.90">
+    <ellipse cx="4" cy="39" rx="30" ry="9" fill="black" opacity=".20"/>
+    <path d="M-35,0Q-35,35,0,35Q35,35,35,0Z" fill="#90caf9"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="#2979ff"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="url(#cs)"/>
+    <rect x="-35" y="-3.5" width="70" height="7" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-12" cy="-18" rx="11" ry="7" fill="white" opacity=".45" transform="rotate(-25,-12,-18)"/>
+  </g>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- ROW 4  (y ≈ 425–440) -->
+  <!-- ═══════════════════════════════════════════════ -->
+
+  <!-- #30  R=25  yellow   translate(82,428)  rot=18  op=0.82 -->
+  <g transform="translate(82,428) rotate(18)" opacity="0.82">
+    <ellipse cx="3" cy="28" rx="21" ry="6" fill="black" opacity=".22"/>
+    <path d="M-25,0Q-25,25,0,25Q25,25,25,0Z" fill="#fff3b0"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="#ffc400"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="url(#cs)"/>
+    <rect x="-25" y="-2.5" width="50" height="5" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-9" cy="-13" rx="8" ry="5" fill="white" opacity=".45" transform="rotate(-25,-9,-13)"/>
+  </g>
+
+  <!-- #31  R=35  green   translate(235,438)  rot=-16  op=0.88 -->
+  <g transform="translate(235,438) rotate(-16)" opacity="0.88">
+    <ellipse cx="4" cy="39" rx="30" ry="9" fill="black" opacity=".20"/>
+    <path d="M-35,0Q-35,35,0,35Q35,35,35,0Z" fill="#a5d6a7"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="#00c853"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="url(#cs)"/>
+    <rect x="-35" y="-3.5" width="70" height="7" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-12" cy="-18" rx="11" ry="7" fill="white" opacity=".45" transform="rotate(-25,-12,-18)"/>
+  </g>
+
+  <!-- #32  R=16  hot-pink   translate(382,422)  rot=30  op=0.70 -->
+  <g transform="translate(382,422) rotate(30)" opacity="0.70">
+    <path d="M-16,0Q-16,16,0,16Q16,16,16,0Z" fill="#f8a8d4"/>
+    <path d="M-16,0Q-16,-16,0,-16Q16,-16,16,0Z" fill="#e91e8c"/>
+    <path d="M-16,0Q-16,-16,0,-16Q16,-16,16,0Z" fill="url(#cs)"/>
+    <rect x="-16" y="-1.5" width="32" height="3" fill="white" opacity=".12" rx="1"/>
+    <ellipse cx="-6" cy="-8" rx="5" ry="3" fill="white" opacity=".4" transform="rotate(-25,-6,-8)"/>
+  </g>
+
+  <!-- #33  R=25  coral-red   translate(528,432)  rot=-8  op=0.82 -->
+  <g transform="translate(528,432) rotate(-8)" opacity="0.82">
+    <ellipse cx="3" cy="28" rx="21" ry="6" fill="black" opacity=".22"/>
+    <path d="M-25,0Q-25,25,0,25Q25,25,25,0Z" fill="#ffb3c6"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="#ff3366"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="url(#cs)"/>
+    <rect x="-25" y="-2.5" width="50" height="5" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-9" cy="-13" rx="8" ry="5" fill="white" opacity=".45" transform="rotate(-25,-9,-13)"/>
+  </g>
+
+  <!-- #34  R=35  cyan   translate(678,428)  rot=22  op=0.90 -->
+  <g transform="translate(678,428) rotate(22)" opacity="0.90">
+    <ellipse cx="4" cy="39" rx="30" ry="9" fill="black" opacity=".20"/>
+    <path d="M-35,0Q-35,35,0,35Q35,35,35,0Z" fill="#b2ebf2"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="#00bcd4"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="url(#cs)"/>
+    <rect x="-35" y="-3.5" width="70" height="7" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-12" cy="-18" rx="11" ry="7" fill="white" opacity=".45" transform="rotate(-25,-12,-18)"/>
+  </g>
+
+  <!-- #35  R=16  yellow   translate(828,438)  rot=-14  op=0.72 -->
+  <g transform="translate(828,438) rotate(-14)" opacity="0.72">
+    <path d="M-16,0Q-16,16,0,16Q16,16,16,0Z" fill="#fff3b0"/>
+    <path d="M-16,0Q-16,-16,0,-16Q16,-16,16,0Z" fill="#ffc400"/>
+    <path d="M-16,0Q-16,-16,0,-16Q16,-16,16,0Z" fill="url(#cs)"/>
+    <rect x="-16" y="-1.5" width="32" height="3" fill="white" opacity=".12" rx="1"/>
+    <ellipse cx="-6" cy="-8" rx="5" ry="3" fill="white" opacity=".4" transform="rotate(-25,-6,-8)"/>
+  </g>
+
+  <!-- #36  R=35  purple   translate(975,422)  rot=6  op=0.88 -->
+  <g transform="translate(975,422) rotate(6)" opacity="0.88">
+    <ellipse cx="4" cy="39" rx="30" ry="9" fill="black" opacity=".20"/>
+    <path d="M-35,0Q-35,35,0,35Q35,35,35,0Z" fill="#e1bee7"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="#9c27b0"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="url(#cs)"/>
+    <rect x="-35" y="-3.5" width="70" height="7" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-12" cy="-18" rx="11" ry="7" fill="white" opacity=".45" transform="rotate(-25,-12,-18)"/>
+  </g>
+
+  <!-- #37  R=25  orange   translate(1128,432)  rot=-26  op=0.80 -->
+  <g transform="translate(1128,432) rotate(-26)" opacity="0.80">
+    <ellipse cx="3" cy="28" rx="21" ry="6" fill="black" opacity=".22"/>
+    <path d="M-25,0Q-25,25,0,25Q25,25,25,0Z" fill="#ffccbc"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="#ff6d00"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="url(#cs)"/>
+    <rect x="-25" y="-2.5" width="50" height="5" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-9" cy="-13" rx="8" ry="5" fill="white" opacity=".45" transform="rotate(-25,-9,-13)"/>
+  </g>
+
+  <!-- #38  R=35  blue   translate(1285,428)  rot=14  op=0.88 -->
+  <g transform="translate(1285,428) rotate(14)" opacity="0.88">
+    <ellipse cx="4" cy="39" rx="30" ry="9" fill="black" opacity=".20"/>
+    <path d="M-35,0Q-35,35,0,35Q35,35,35,0Z" fill="#90caf9"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="#2979ff"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="url(#cs)"/>
+    <rect x="-35" y="-3.5" width="70" height="7" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-12" cy="-18" rx="11" ry="7" fill="white" opacity=".45" transform="rotate(-25,-12,-18)"/>
+  </g>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- ROW 5  (y ≈ 532–550) -->
+  <!-- ═══════════════════════════════════════════════ -->
+
+  <!-- #39  R=35  blue   translate(162,538)  rot=-24  op=0.88 -->
+  <g transform="translate(162,538) rotate(-24)" opacity="0.88">
+    <ellipse cx="4" cy="39" rx="30" ry="9" fill="black" opacity=".20"/>
+    <path d="M-35,0Q-35,35,0,35Q35,35,35,0Z" fill="#90caf9"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="#2979ff"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="url(#cs)"/>
+    <rect x="-35" y="-3.5" width="70" height="7" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-12" cy="-18" rx="11" ry="7" fill="white" opacity=".45" transform="rotate(-25,-12,-18)"/>
+  </g>
+
+  <!-- #40  R=25  purple   translate(322,548)  rot=10  op=0.82 -->
+  <g transform="translate(322,548) rotate(10)" opacity="0.82">
+    <ellipse cx="3" cy="28" rx="21" ry="6" fill="black" opacity=".22"/>
+    <path d="M-25,0Q-25,25,0,25Q25,25,25,0Z" fill="#e1bee7"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="#9c27b0"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="url(#cs)"/>
+    <rect x="-25" y="-2.5" width="50" height="5" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-9" cy="-13" rx="8" ry="5" fill="white" opacity=".45" transform="rotate(-25,-9,-13)"/>
+  </g>
+
+  <!-- #41  R=35  orange   translate(478,532)  rot=-18  op=0.88 -->
+  <g transform="translate(478,532) rotate(-18)" opacity="0.88">
+    <ellipse cx="4" cy="39" rx="30" ry="9" fill="black" opacity=".20"/>
+    <path d="M-35,0Q-35,35,0,35Q35,35,35,0Z" fill="#ffccbc"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="#ff6d00"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="url(#cs)"/>
+    <rect x="-35" y="-3.5" width="70" height="7" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-12" cy="-18" rx="11" ry="7" fill="white" opacity=".45" transform="rotate(-25,-12,-18)"/>
+  </g>
+
+  <!-- #42  R=25  coral-red   translate(632,542)  rot=28  op=0.85 -->
+  <g transform="translate(632,542) rotate(28)" opacity="0.85">
+    <ellipse cx="3" cy="28" rx="21" ry="6" fill="black" opacity=".22"/>
+    <path d="M-25,0Q-25,25,0,25Q25,25,25,0Z" fill="#ffb3c6"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="#ff3366"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="url(#cs)"/>
+    <rect x="-25" y="-2.5" width="50" height="5" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-9" cy="-13" rx="8" ry="5" fill="white" opacity=".45" transform="rotate(-25,-9,-13)"/>
+  </g>
+
+  <!-- #43  R=16  green   translate(782,536)  rot=-6  op=0.72 -->
+  <g transform="translate(782,536) rotate(-6)" opacity="0.72">
+    <path d="M-16,0Q-16,16,0,16Q16,16,16,0Z" fill="#a5d6a7"/>
+    <path d="M-16,0Q-16,-16,0,-16Q16,-16,16,0Z" fill="#00c853"/>
+    <path d="M-16,0Q-16,-16,0,-16Q16,-16,16,0Z" fill="url(#cs)"/>
+    <rect x="-16" y="-1.5" width="32" height="3" fill="white" opacity=".12" rx="1"/>
+    <ellipse cx="-6" cy="-8" rx="5" ry="3" fill="white" opacity=".4" transform="rotate(-25,-6,-8)"/>
+  </g>
+
+  <!-- #44  R=35  hot-pink   translate(932,548)  rot=20  op=0.88 -->
+  <g transform="translate(932,548) rotate(20)" opacity="0.88">
+    <ellipse cx="4" cy="39" rx="30" ry="9" fill="black" opacity=".20"/>
+    <path d="M-35,0Q-35,35,0,35Q35,35,35,0Z" fill="#f8a8d4"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="#e91e8c"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="url(#cs)"/>
+    <rect x="-35" y="-3.5" width="70" height="7" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-12" cy="-18" rx="11" ry="7" fill="white" opacity=".45" transform="rotate(-25,-12,-18)"/>
+  </g>
+
+  <!-- #45  R=25  cyan   translate(1082,532)  rot=-30  op=0.82 -->
+  <g transform="translate(1082,532) rotate(-30)" opacity="0.82">
+    <ellipse cx="3" cy="28" rx="21" ry="6" fill="black" opacity=".22"/>
+    <path d="M-25,0Q-25,25,0,25Q25,25,25,0Z" fill="#b2ebf2"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="#00bcd4"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="url(#cs)"/>
+    <rect x="-25" y="-2.5" width="50" height="5" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-9" cy="-13" rx="8" ry="5" fill="white" opacity=".45" transform="rotate(-25,-9,-13)"/>
+  </g>
+
+  <!-- #46  R=35  yellow   translate(1242,542)  rot=12  op=0.88 -->
+  <g transform="translate(1242,542) rotate(12)" opacity="0.88">
+    <ellipse cx="4" cy="39" rx="30" ry="9" fill="black" opacity=".20"/>
+    <path d="M-35,0Q-35,35,0,35Q35,35,35,0Z" fill="#fff3b0"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="#ffc400"/>
+    <path d="M-35,0Q-35,-35,0,-35Q35,-35,35,0Z" fill="url(#cs)"/>
+    <rect x="-35" y="-3.5" width="70" height="7" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-12" cy="-18" rx="11" ry="7" fill="white" opacity=".45" transform="rotate(-25,-12,-18)"/>
+  </g>
+
+  <!-- #47  R=25  purple   translate(1400,536)  rot=-16  op=0.80 -->
+  <g transform="translate(1400,536) rotate(-16)" opacity="0.80">
+    <ellipse cx="3" cy="28" rx="21" ry="6" fill="black" opacity=".22"/>
+    <path d="M-25,0Q-25,25,0,25Q25,25,25,0Z" fill="#e1bee7"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="#9c27b0"/>
+    <path d="M-25,0Q-25,-25,0,-25Q25,-25,25,0Z" fill="url(#cs)"/>
+    <rect x="-25" y="-2.5" width="50" height="5" fill="white" opacity=".14" rx="1"/>
+    <ellipse cx="-9" cy="-13" rx="8" ry="5" fill="white" opacity=".45" transform="rotate(-25,-9,-13)"/>
+  </g>
+
+</svg>

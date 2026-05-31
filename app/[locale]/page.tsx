@@ -83,33 +83,21 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-pink-500 via-purple-500 to-indigo-400 py-24 px-4">
-        {/* Animated background blobs */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute -top-20 -left-20 w-80 h-80 bg-white/10 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute -bottom-20 -right-20 w-96 h-96 bg-yellow-300/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }} />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-pink-300/10 rounded-full blur-2xl animate-pulse" style={{ animationDelay: "2s" }} />
-        </div>
+      <section
+        className="relative overflow-hidden py-24 px-4"
+        style={{
+          backgroundImage: "url('/gacha-hero.svg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        {/* Color overlay for readability */}
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/80 via-pink-900/70 to-indigo-900/75" />
+        {/* Top & bottom fade */}
+        <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/20 to-transparent pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
 
-        {/* Floating emojis */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {["⭕", "✨", "🎪", "🌟", "🎈", "💫", "🎠", "🎡"].map((emoji, i) => (
-            <span
-              key={i}
-              className="absolute text-3xl opacity-20 animate-bounce select-none"
-              style={{
-                left: `${8 + i * 11}%`,
-                top: `${8 + (i % 3) * 28}%`,
-                animationDelay: `${i * 0.35}s`,
-                animationDuration: `${2.5 + i * 0.3}s`,
-              }}
-            >
-              {emoji}
-            </span>
-          ))}
-        </div>
-
-        <div className="relative max-w-3xl mx-auto text-center">
+        <div className="relative z-10 max-w-3xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white/90 text-sm font-bold px-4 py-1.5 rounded-full mb-6 border border-white/30">
             <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
             {locale === "ja" ? "日本最大級のガチャ情報サービス" : "Japan's largest gacha info service"}
