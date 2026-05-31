@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
+import Image from "next/image";
 import { Search, TrendingUp, MapPin, Star, Map, Package, Heart, ArrowRight } from "lucide-react";
 import CapsuleIcon from "@/components/CapsuleIcon";
 
@@ -83,16 +84,18 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* ── Hero ── */}
-      <section
-        className="relative overflow-hidden py-24 px-4"
-        style={{
-          backgroundImage: "url('/gacha-hero.svg'), linear-gradient(135deg, #db2777 0%, #9333ea 55%, #4f46e5 100%)",
-          backgroundSize: "cover, cover",
-          backgroundPosition: "center, center",
-        }}
-      >
-        {/* Very light overlay just to boost text contrast slightly */}
-        <div className="absolute inset-0 bg-black/20" />
+      <section className="relative overflow-hidden py-24 px-4 bg-gradient-to-br from-pink-600 via-purple-600 to-indigo-600">
+        {/* Capsule SVG — rendered via <img> so internal gradients work correctly */}
+        <Image
+          src="/gacha-hero.svg"
+          alt=""
+          fill
+          className="object-cover"
+          unoptimized
+          priority
+        />
+        {/* Subtle overlay for text legibility */}
+        <div className="absolute inset-0 bg-black/25" />
 
         <div className="relative z-10 max-w-3xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white/90 text-sm font-bold px-4 py-1.5 rounded-full mb-6 border border-white/30">
