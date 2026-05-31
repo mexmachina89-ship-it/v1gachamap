@@ -86,13 +86,13 @@ export default function HomePage() {
       <section
         className="relative overflow-hidden py-24 px-4"
         style={{
-          backgroundImage: "url('/gacha-hero.svg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          backgroundImage: "url('/gacha-hero.svg'), linear-gradient(135deg, #db2777 0%, #9333ea 55%, #4f46e5 100%)",
+          backgroundSize: "cover, cover",
+          backgroundPosition: "center, center",
         }}
       >
-        {/* Color overlay — light enough to let capsules show through */}
-        <div className="absolute inset-0 bg-black/40" />
+        {/* Very light overlay just to boost text contrast slightly */}
+        <div className="absolute inset-0 bg-black/20" />
 
         <div className="relative z-10 max-w-3xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white/90 text-sm font-bold px-4 py-1.5 rounded-full mb-6 border border-white/30">
