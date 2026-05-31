@@ -19,7 +19,7 @@ export async function GET() {
     let posts: SocialPost[] = [];
 
     for (const row of cached) {
-      const items = Array.isArray(row.results) ? (row.results as SocialPost[]) : [];
+      const items = Array.isArray(row.results) ? (row.results as unknown as SocialPost[]) : [];
       posts.push(...items);
     }
 
