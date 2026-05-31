@@ -17,7 +17,10 @@ export async function GET() {
       return sum + arr.length;
     }, 0);
 
-    return NextResponse.json({ userCount, searchCount, gachaCount });
+    return NextResponse.json(
+      { userCount, searchCount, gachaCount },
+      { headers: { "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600" } }
+    );
   } catch {
     return NextResponse.json({ userCount: 0, searchCount: 0, gachaCount: 0 });
   }

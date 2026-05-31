@@ -99,14 +99,17 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* ── Hero ── */}
-      <section
-        className="relative overflow-hidden py-24 px-4"
-        style={{
-          backgroundImage: "url('/hero-bg.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
+      <section className="relative overflow-hidden py-24 px-4">
+        {/* Hero image — priority=true でLCP最適化（above-the-fold） */}
+        <Image
+          src="/hero-bg.jpg"
+          alt=""
+          fill
+          priority
+          quality={85}
+          className="object-cover object-center"
+          sizes="100vw"
+        />
         {/* Dark overlay for text legibility */}
         <div className="absolute inset-0 bg-black/45" />
 

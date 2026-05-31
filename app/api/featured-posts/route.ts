@@ -50,7 +50,10 @@ export async function GET() {
     // ④ いいね数の多い順にソートして上位6件を返す
     unique.sort((a, b) => (b.likes || 0) - (a.likes || 0));
 
-    return NextResponse.json({ posts: unique.slice(0, 6) });
+    return NextResponse.json(
+      { posts: unique.slice(0, 6) },
+      { headers: { "Cache-Control": "public, s-maxage=1800, stale-while-revalidate=3600" } }
+    );
   } catch (e) {
     console.error("[featured-posts]", e);
     return NextResponse.json({ posts: [] });

@@ -95,7 +95,10 @@ export async function GET(req: NextRequest) {
       };
     });
 
-    return NextResponse.json({ ranking, source: "searchlog" });
+    return NextResponse.json(
+      { ranking, source: "searchlog" },
+      { headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=120" } }
+    );
   } catch (e) {
     console.error("ranking error:", e);
     return NextResponse.json({ ranking: mockRanking, source: "mock" });

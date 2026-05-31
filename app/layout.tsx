@@ -1,12 +1,60 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://gachamap.vercel.app";
+
 export const metadata: Metadata = {
-  title: "GachaMap - ガチャガチャ検索",
-  description: "欲しいガチャが見つかる！カプセルトイ検索アプリ / Find capsule toys near you",
+  metadataBase: new URL(BASE_URL),
+  title: {
+    template: "%s | GachaMap",
+    default: "GachaMap - ガチャガチャ・カプセルトイ検索",
+  },
+  description:
+    "欲しいガチャが見つかる！ガチャガチャ・カプセルトイの最新情報を検索。設置店舗をマップで確認、SNS投稿でリアルタイム情報もチェック。",
+  keywords: [
+    "ガチャガチャ", "カプセルトイ", "ガチャポン", "ガシャポン",
+    "設置店舗", "ガチャ検索", "ガチャマップ", "capsule toy",
+  ],
+  authors: [{ name: "GachaMap" }],
+  creator: "GachaMap",
+  openGraph: {
+    type: "website",
+    locale: "ja_JP",
+    alternateLocale: "en_US",
+    url: BASE_URL,
+    siteName: "GachaMap",
+    title: "GachaMap - ガチャガチャ・カプセルトイ検索",
+    description:
+      "欲しいガチャが見つかる！カプセルトイの最新情報検索・設置店舗マップ・SNS投稿まとめ",
+    images: [
+      {
+        url: "/hero-bg.jpg",
+        width: 1200,
+        height: 630,
+        alt: "GachaMap - ガチャガチャ検索",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "GachaMap - ガチャガチャ・カプセルトイ検索",
+    description: "欲しいガチャが見つかる！カプセルトイの最新情報・設置店舗マップ",
+    images: ["/hero-bg.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#ec4899",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

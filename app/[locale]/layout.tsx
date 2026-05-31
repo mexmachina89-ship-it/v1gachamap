@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -5,6 +6,30 @@ import Providers from "@/components/Providers";
 import Header from "@/components/Header";
 
 const locales = ["ja", "en"];
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://gachamap.vercel.app";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const isJa = locale === "ja";
+
+  return {
+    alternates: {
+      canonical: `${BASE_URL}/${locale}`,
+      languages: {
+        "ja": `${BASE_URL}/ja`,
+        "en": `${BASE_URL}/en`,
+      },
+    },
+    openGraph: {
+      locale: isJa ? "ja_JP" : "en_US",
+      alternateLocale: isJa ? "en_US" : "ja_JP",
+    },
+  };
+}
 
 export default async function LocaleLayout({
   children,
@@ -22,7 +47,7 @@ export default async function LocaleLayout({
   return (
     <NextIntlClientProvider messages={messages}>
       <Providers>
-        <div lang={locale} className="min-h-screen flex flex-col">
+        <div className="min-h-screen flex flex-col">
           <Header />
           <main className="flex-1">{children}</main>
           <footer className="bg-white border-t-4 border-pink-200 py-6 text-center text-sm text-gray-500">
