@@ -26,7 +26,7 @@ export default async function LocaleLayout({
           <Header />
           <main className="flex-1">{children}</main>
           <footer className="bg-white border-t-4 border-pink-200 py-6 text-center text-sm text-gray-500">
-            <p className="font-bold text-pink-500">🎰 GachaMap</p>
+            <p className="font-bold text-pink-500">💊 GachaMap</p>
             <p className="mt-1">© 2024 GachaMap. All rights reserved.</p>
           </footer>
         </div>

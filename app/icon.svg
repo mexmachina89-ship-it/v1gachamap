@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Shadow -->
+  <ellipse cx="50" cy="92" rx="24" ry="6" fill="rgba(0,0,0,0.12)"/>
+
+  <!-- Bottom half (white/cream) -->
+  <path d="M 12,50 A 38,38 0 0 0 88,50 Z" fill="#f5f0ff"/>
+  <path d="M 12,50 Q 12,88 50,88 Q 88,88 88,50 Z" fill="#f5f0ff"/>
+
+  <!-- Top half (pink gradient) -->
+  <path d="M 12,50 A 38,38 0 0 1 88,50 Z" fill="#ff4da6"/>
+  <path d="M 12,50 Q 12,12 50,12 Q 88,12 88,50 Z" fill="#ff4da6"/>
+
+  <!-- Top gradient overlay -->
+  <path d="M 12,50 Q 12,12 50,12 Q 88,12 88,50 Z" fill="url(#topGrad)"/>
+  <path d="M 12,50 A 38,38 0 0 1 88,50 Z" fill="url(#topGrad)"/>
+
+  <!-- Bottom inner shadow -->
+  <path d="M 12,50 Q 12,88 50,88 Q 88,88 88,50 Z" fill="url(#bottomGrad)"/>
+
+  <!-- Seam band -->
+  <rect x="12" y="47" width="76" height="6" fill="white" opacity="0.25" rx="1"/>
+  <line x1="12" y1="48" x2="88" y2="48" stroke="rgba(255,255,255,0.5)" stroke-width="1.2"/>
+  <line x1="12" y1="52" x2="88" y2="52" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
+
+  <!-- Highlight (3D shine) -->
+  <ellipse cx="38" cy="29" rx="14" ry="9" fill="white" opacity="0.35" transform="rotate(-20,38,29)"/>
+
+  <!-- Small dots on bottom half for texture -->
+  <circle cx="38" cy="66" r="2.5" fill="rgba(180,160,220,0.4)"/>
+  <circle cx="50" cy="72" r="2" fill="rgba(180,160,220,0.3)"/>
+  <circle cx="62" cy="66" r="2.5" fill="rgba(180,160,220,0.4)"/>
+
+  <defs>
+    <linearGradient id="topGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff80c0" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#cc0066" stop-opacity="0.2"/>
+    </linearGradient>
+    <linearGradient id="bottomGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#e8deff" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#c9b8f0" stop-opacity="0.5"/>
+    </linearGradient>
+  </defs>
+</svg>

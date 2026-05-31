@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { Search, TrendingUp, MapPin, Star, Map, Package, Heart, ArrowRight } from "lucide-react";
+import CapsuleIcon from "@/components/CapsuleIcon";
 
 const trendingKeywords = [
   "ちいかわ", "ポケモン", "すみっコぐらし", "サンリオ",
@@ -92,7 +93,7 @@ export default function HomePage() {
 
         {/* Floating emojis */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {["🎰", "✨", "🎪", "🌟", "🎈", "💫", "🎠", "🎡"].map((emoji, i) => (
+          {["⭕", "✨", "🎪", "🌟", "🎈", "💫", "🎠", "🎡"].map((emoji, i) => (
             <span
               key={i}
               className="absolute text-3xl opacity-20 animate-bounce select-none"
@@ -114,8 +115,11 @@ export default function HomePage() {
             {locale === "ja" ? "日本最大級のガチャ情報サービス" : "Japan's largest gacha info service"}
           </div>
 
+          <div className="flex justify-center mb-4">
+            <CapsuleIcon size={88} className="drop-shadow-2xl" />
+          </div>
           <h1 className="text-5xl md:text-7xl font-black text-white drop-shadow-lg mb-4 leading-tight">
-            🎰 {t("title")}
+            {t("title")}
           </h1>
           <p className="text-xl md:text-2xl text-white/90 font-semibold mb-10 drop-shadow">
             {t("subtitle")}
@@ -164,12 +168,14 @@ export default function HomePage() {
       <section className="bg-white border-b border-gray-100 py-5 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 flex justify-center gap-8 md:gap-20">
           {[
-            { icon: "🎰", label: locale === "ja" ? "ガチャ情報" : "Gacha Items", value: "10,000+", color: "text-pink-600" },
+            { icon: "capsule", label: locale === "ja" ? "ガチャ情報" : "Gacha Items", value: "10,000+", color: "text-pink-600" },
             { icon: "🏪", label: locale === "ja" ? "設置店舗" : "Stores", value: "5,000+", color: "text-purple-600" },
             { icon: "👥", label: locale === "ja" ? "ユーザー" : "Users", value: "50,000+", color: "text-indigo-600" },
           ].map((stat) => (
             <div key={stat.label} className="text-center group">
-              <div className="text-2xl mb-0.5 group-hover:scale-110 transition-transform">{stat.icon}</div>
+              <div className="flex justify-center mb-0.5 group-hover:scale-110 transition-transform">
+                {stat.icon === "capsule" ? <CapsuleIcon size={32} /> : <span className="text-2xl">{stat.icon}</span>}
+              </div>
               <div className={`text-2xl font-black ${stat.color}`}>{stat.value}</div>
               <div className="text-xs text-gray-400 font-medium">{stat.label}</div>
             </div>

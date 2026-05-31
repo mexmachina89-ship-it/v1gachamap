@@ -6,6 +6,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { signOut, useSession } from "next-auth/react";
 import { useState } from "react";
 import { Menu, X, Globe, User, LogOut, TrendingUp, Map, Search, Heart } from "lucide-react";
+import CapsuleIcon from "./CapsuleIcon";
 
 export default function Header() {
   const t = useTranslations("nav");
@@ -33,8 +34,8 @@ export default function Header() {
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-sm border-b-4 border-pink-400 shadow-md">
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link href={`/${locale}`} className="flex items-center gap-2">
-          <span className="text-2xl">🎰</span>
+        <Link href={`/${locale}`} className="flex items-center gap-2 group">
+          <CapsuleIcon size={36} className="group-hover:scale-110 transition-transform duration-200" />
           <span className="font-black text-xl bg-gradient-to-r from-pink-500 via-purple-500 to-yellow-500 bg-clip-text text-transparent">
             GachaMap
           </span>
