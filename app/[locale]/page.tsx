@@ -3,8 +3,10 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { Search, TrendingUp, MapPin, Star, Map, Package, Heart, ArrowRight } from "lucide-react";
+import { Search, TrendingUp, MapPin, Star, Map, Package, Heart, ArrowRight, Sparkles, ExternalLink } from "lucide-react";
+import Image from "next/image";
 import CapsuleIcon from "@/components/CapsuleIcon";
+import type { SocialPost } from "@/lib/apify";
 
 const trendingKeywords = [
   "ちいかわ", "ポケモン", "すみっコぐらし", "サンリオ",
@@ -27,6 +29,8 @@ export default function HomePage() {
   const [ranking, setRanking] = useState<RankingItem[]>([]);
   const [rankingLoading, setRankingLoading] = useState(true);
   const [stats, setStats] = useState({ gachaCount: 0, searchCount: 0, userCount: 0 });
+  const [featuredPosts, setFeaturedPosts] = useState<SocialPost[]>([]);
+  const [postsLoading, setPostsLoading] = useState(true);
 
   useEffect(() => {
     fetch("/api/ranking?period=weekly")
@@ -39,6 +43,12 @@ export default function HomePage() {
       .then((r) => r.json())
       .then((d) => setStats(d))
       .catch(() => {});
+
+    fetch("/api/featured-posts")
+      .then((r) => r.json())
+      .then((d) => setFeaturedPosts(d.posts || []))
+      .catch(() => {})
+      .finally(() => setPostsLoading(false));
   }, []);
 
   const handleSearch = (q?: string) => {
@@ -211,6 +221,122 @@ export default function HomePage() {
               </div>
             ))}
           </div>
+        </section>
+
+        {/* ── SNS おすすめ投稿 ── */}
+        <section>
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <Sparkles className="text-yellow-400 fill-yellow-400" size={24} />
+              <h2 className="text-2xl font-black text-gray-800">
+                {locale === "ja" ? "SNSおすすめ情報" : "Featured SNS Posts"}
+              </h2>
+              <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full font-medium">
+                {locale === "ja" ? "いいね数順" : "By likes"}
+              </span>
+            </div>
+            <a
+              href={`/${locale}/search?q=ガチャ&filter=all`}
+              className="flex items-center gap-1 text-sm font-bold text-pink-500 hover:text-pink-600 transition-colors group"
+            >
+              {locale === "ja" ? "もっと見る" : "See more"}
+              <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+            </a>
+          </div>
+
+          {postsLoading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="rounded-2xl border-2 border-gray-100 overflow-hidden animate-pulse">
+                  <div className="h-36 bg-gray-100" />
+                  <div className="p-4 space-y-2">
+                    <div className="h-3 bg-gray-100 rounded-full w-1/3" />
+                    <div className="h-3 bg-gray-100 rounded-full w-full" />
+                    <div className="h-3 bg-gray-100 rounded-full w-2/3" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : featuredPosts.length === 0 ? (
+            <div className="text-center py-10 bg-gradient-to-br from-sky-50 to-pink-50 rounded-2xl">
+              <p className="text-3xl mb-2">📱</p>
+              <p className="text-gray-500 font-medium text-sm">
+                {locale === "ja" ? "SNS投稿を収集中です…" : "Collecting SNS posts..."}
+              </p>
+              <p className="text-gray-400 text-xs mt-1">
+                {locale === "ja" ? "検索するとここに表示されます" : "Posts will appear after searching"}
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {featuredPosts.map((post) => {
+                const isTwitter = post.platform === "twitter";
+                const cardColor = isTwitter
+                  ? "border-sky-200 hover:border-sky-400"
+                  : "border-pink-200 hover:border-pink-400";
+                const badgeColor = isTwitter
+                  ? "bg-sky-500"
+                  : "bg-gradient-to-r from-pink-500 to-purple-500";
+                const platformLabel = isTwitter ? "𝕏  X (Twitter)" : "📸 Instagram";
+
+                return (
+                  <a
+                    key={post.url || post.id}
+                    href={post.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`group flex flex-col rounded-2xl border-2 ${cardColor} bg-white overflow-hidden hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5`}
+                  >
+                    {/* 画像 */}
+                    {post.imageUrl && (
+                      <div className="relative h-36 bg-gray-100 flex-shrink-0 overflow-hidden">
+                        <Image
+                          src={post.imageUrl}
+                          alt=""
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-300"
+                          unoptimized
+                        />
+                        {/* HOTバッジ */}
+                        {(post.likes || 0) >= 100 && (
+                          <span className="absolute top-2 left-2 px-2 py-0.5 bg-yellow-400 text-yellow-900 text-xs font-black rounded-full shadow">
+                            🔥 HOT
+                          </span>
+                        )}
+                      </div>
+                    )}
+
+                    <div className="p-4 flex flex-col flex-1">
+                      {/* プラットフォームバッジ・著者 */}
+                      <div className="flex items-center justify-between mb-2">
+                        <span className={`text-xs text-white font-bold px-2 py-0.5 rounded-full ${badgeColor}`}>
+                          {platformLabel}
+                        </span>
+                        <span className="text-xs text-gray-400 truncate ml-2">@{post.author}</span>
+                      </div>
+
+                      {/* 投稿テキスト */}
+                      <p className="text-sm text-gray-700 line-clamp-3 flex-1 mb-3 leading-relaxed">
+                        {post.text}
+                      </p>
+
+                      {/* いいね数・リンク */}
+                      <div className="flex items-center justify-between mt-auto">
+                        <span className="flex items-center gap-1 text-sm font-bold text-pink-500">
+                          <Heart size={14} fill="currentColor" />
+                          {(post.likes || 0).toLocaleString()}
+                        </span>
+                        <span className="flex items-center gap-1 text-xs text-gray-400 group-hover:text-pink-500 transition-colors">
+                          <ExternalLink size={12} />
+                          {locale === "ja" ? "投稿を見る" : "View post"}
+                        </span>
+                      </div>
+                    </div>
+                  </a>
+                );
+              })}
+            </div>
+          )}
         </section>
 
         {/* ── Ranking preview ── */}
