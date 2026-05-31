@@ -42,16 +42,23 @@ export default function Header() {
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-1">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="flex items-center gap-1 px-3 py-2 rounded-full text-sm font-semibold text-gray-700 hover:bg-pink-50 hover:text-pink-600 transition-colors"
-            >
-              {link.icon}
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href || (link.href !== `/${locale}` && pathname.startsWith(link.href));
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`flex items-center gap-1 px-3 py-2 rounded-full text-sm font-semibold transition-all ${
+                  isActive
+                    ? "bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-md"
+                    : "text-gray-700 hover:bg-pink-50 hover:text-pink-600"
+                }`}
+              >
+                {link.icon}
+                {link.label}
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Right actions */}
@@ -108,17 +115,22 @@ export default function Header() {
       {/* Mobile menu */}
       {menuOpen && (
         <div className="md:hidden bg-white border-t border-pink-100 px-4 py-4 flex flex-col gap-3">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setMenuOpen(false)}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold text-gray-700 hover:bg-pink-50"
-            >
-              {link.icon}
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href || (link.href !== `/${locale}` && pathname.startsWith(link.href));
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setMenuOpen(false)}
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold transition-colors ${
+                  isActive ? "bg-pink-50 text-pink-600" : "text-gray-700 hover:bg-pink-50"
+                }`}
+              >
+                {link.icon}
+                {link.label}
+              </Link>
+            );
+          })}
           <hr className="border-pink-100" />
           <button
             onClick={() => { switchLocale(); setMenuOpen(false); }}

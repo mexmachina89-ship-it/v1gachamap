@@ -64,7 +64,7 @@ function SearchContent() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       {/* 検索バー */}
-      <div className="flex gap-2 mb-8">
+      <div className="flex gap-2 mb-6">
         <div className="flex-1 relative">
           <Search
             className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
@@ -119,9 +119,35 @@ function SearchContent() {
       </div>
 
       {loading ? (
-        <div className="flex flex-col items-center justify-center py-20 gap-4">
-          <Loader2 size={48} className="text-pink-500 animate-spin" />
-          <p className="text-gray-500 font-medium">{t("loading")}</p>
+        <div className="space-y-10">
+          {/* Web skeleton */}
+          <section>
+            <div className="h-6 w-40 bg-gray-100 rounded-full animate-pulse mb-4" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+              {Array.from({ length: 10 }).map((_, i) => (
+                <div key={i} className="rounded-2xl border-2 border-gray-100 overflow-hidden animate-pulse">
+                  <div className="h-44 bg-gray-100" />
+                  <div className="p-4 space-y-2">
+                    <div className="h-3 bg-gray-100 rounded-full w-full" />
+                    <div className="h-3 bg-gray-100 rounded-full w-2/3" />
+                    <div className="flex gap-1 mt-2">
+                      <div className="h-5 w-12 bg-gray-100 rounded-full" />
+                      <div className="h-5 w-12 bg-gray-100 rounded-full" />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+          {/* SNS skeleton */}
+          <section>
+            <div className="h-6 w-32 bg-gray-100 rounded-full animate-pulse mb-4" />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="h-40 bg-gray-100 rounded-2xl animate-pulse" />
+              ))}
+            </div>
+          </section>
         </div>
       ) : (
         <>
@@ -184,10 +210,10 @@ function SearchContent() {
 
           {/* 結果なし */}
           {!loading && query && totalCount === 0 && (
-            <div className="text-center py-20">
+            <div className="text-center py-20 bg-gray-50 rounded-3xl">
               <p className="text-6xl mb-4">🎰</p>
-              <p className="text-xl font-bold text-gray-600">{t("noResults")}</p>
-              <p className="text-gray-400 mt-2">
+              <p className="text-xl font-bold text-gray-600 mb-2">{t("noResults")}</p>
+              <p className="text-gray-400 text-sm">
                 {locale === "ja"
                   ? "別のキーワードで試してみてください"
                   : "Try a different keyword"}
@@ -196,12 +222,17 @@ function SearchContent() {
           )}
 
           {!query && (
-            <div className="text-center py-20">
+            <div className="text-center py-20 bg-gradient-to-br from-pink-50 to-purple-50 rounded-3xl">
               <p className="text-6xl mb-4">🔍</p>
-              <p className="text-xl font-bold text-gray-600">
+              <p className="text-xl font-bold text-gray-600 mb-2">
                 {locale === "ja"
-                  ? "キーワードを入力して検索してください"
+                  ? "キーワードを入力して検索"
                   : "Enter a keyword to search"}
+              </p>
+              <p className="text-sm text-gray-400">
+                {locale === "ja"
+                  ? "ちいかわ・ポケモン・サンリオなどで試してみよう"
+                  : "Try searching: Chiikawa, Pokemon, Sanrio..."}
               </p>
             </div>
           )}
