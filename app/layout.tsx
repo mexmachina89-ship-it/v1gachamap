@@ -52,7 +52,7 @@ export const metadata: Metadata = {
   },
   // ↓ Google Search Console の「HTMLタグ」の content= の値をここに貼り付ける
   verification: {
-    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "",
+    google: "Z5ph92pTjl1Qsf6UlZdJDGglyLCsjWEWQKmDytmMjgs",
   },
 };
 
