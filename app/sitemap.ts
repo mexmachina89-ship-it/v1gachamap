@@ -1,6 +1,7 @@
 import { MetadataRoute } from "next";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://gachamap.vercel.app";
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
+  || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
 const locales = ["ja", "en"];
 const pages = ["", "/search", "/map", "/ranking"];
 

@@ -6,7 +6,8 @@ import Providers from "@/components/Providers";
 import Header from "@/components/Header";
 
 const locales = ["ja", "en"];
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://gachamap.vercel.app";
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
+  || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
 
 export async function generateMetadata({
   params,

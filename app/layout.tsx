@@ -4,7 +4,8 @@ import "./globals.css";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://gachamap.vercel.app";
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
+  || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
