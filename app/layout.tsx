@@ -50,6 +50,10 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true },
   },
+  // ↓ Google Search Console の「HTMLタグ」の content= の値をここに貼り付ける
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "",
+  },
 };
 
 export const viewport: Viewport = {
