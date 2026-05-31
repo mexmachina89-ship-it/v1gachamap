@@ -85,10 +85,21 @@ export default function HomePage() {
     <div className="min-h-screen">
       {/* ── Hero ── */}
       <section className="relative overflow-hidden py-24 px-4 bg-gradient-to-br from-pink-600 via-purple-600 to-indigo-600">
-        {/* Inline SVG capsules — guaranteed to render gradients/shine correctly */}
+        {/* Background video — place hero-video.mp4 in /public to enable */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+          onError={(e) => { (e.target as HTMLVideoElement).style.display = "none"; }}
+        >
+          <source src="/hero-video.mp4" type="video/mp4" />
+        </video>
+        {/* Fallback capsule illustration (shows when no video) */}
         <HeroCapsulesBg />
-        {/* Subtle overlay for text legibility */}
-        <div className="absolute inset-0 bg-black/20" />
+        {/* Overlay for text legibility */}
+        <div className="absolute inset-0 bg-black/30" />
 
         <div className="relative z-10 max-w-3xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white/90 text-sm font-bold px-4 py-1.5 rounded-full mb-6 border border-white/30">
