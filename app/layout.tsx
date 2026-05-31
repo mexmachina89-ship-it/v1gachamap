@@ -65,6 +65,9 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html className={geist.variable}>
+      <head>
+        <meta name="google-site-verification" content="Z5ph92pTjl1Qsf6UlZdJDGglyLCsjWEWQKmDytmMjgs" />
+      </head>
       <body className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50">
         {children}
       </body>
