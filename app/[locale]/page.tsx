@@ -91,11 +91,8 @@ export default function HomePage() {
           backgroundPosition: "center",
         }}
       >
-        {/* Color overlay for readability */}
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/80 via-pink-900/70 to-indigo-900/75" />
-        {/* Top & bottom fade */}
-        <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/20 to-transparent pointer-events-none" />
-        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+        {/* Color overlay — light enough to let capsules show through */}
+        <div className="absolute inset-0 bg-black/40" />
 
         <div className="relative z-10 max-w-3xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white/90 text-sm font-bold px-4 py-1.5 rounded-full mb-6 border border-white/30">
